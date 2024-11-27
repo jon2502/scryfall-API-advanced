@@ -1,4 +1,4 @@
-var print = document.getElementById("cardsprint")
+var cardsprint = document.getElementById("cardsprint")
 var Btn = document.getElementById("Btn")
 
 // required API URL's and file paths
