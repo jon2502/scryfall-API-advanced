@@ -112,6 +112,42 @@ async function generateBtn(Data){
     button.classList.add('NavBtn')
     button.innerHTML = `>>`
     Btn.appendChild(button)
+    activeBtn.classList.add('active')
+    var allBtn = document.querySelectorAll('.NavBtn')
+    allBtn.forEach(Btn =>{
+        Btn.addEventListener("click", function(){
+            switch(this.id){
+                case 'start':
+                    currentPage = 0
+                    break;
+                case 'next':
+                    currentPage = currentPage + 1
+                    break;
+                case 'previous':
+                    currentPage = currentPage - 1
+                    break;                 
+                case 'end':
+                    currentPage = Data.length
+                    break;
+                default:
+                    currentPage = parseInt(this.id)
+            }
+            if(currentPage < 0){
+                currentPage = 0
+            } else if(currentPage > Data.length){
+                currentPage = Data.length
+            }
+            setData(Data, currentPage)
+        })
+    })
+}
+
+function setData(Data, id){
+    cardsprint.innerHTML=""
+    Btn.innerHTML=""
+    console.log(id)
+    generateimg(Data, id)
+    generateBtn(Data, id)
 }
 
 // set a funcion that adds a class to the element on click 
