@@ -5,6 +5,8 @@ var Btn = document.getElementById("Btn")
 const oracle_cards = "Bulk_data/oracle_cards.json"
 const deafult_cards = "Bulk_data/default_cards.json"
 
+let currentPage = 0;
+const maxButtons = 10
 
 async function loadDoc() {
     const response = await fetch(oracle_cards);
@@ -28,8 +30,8 @@ async function loadDoc() {
         const chunk = Data.slice(i, i + chunkSize);
         ChunkData.push(chunk)
     }
-    generateimg(ChunkData, 1)
-    generateBtn(ChunkData)
+    generateimg(ChunkData, currentPage)
+    generateBtn(ChunkData, currentPage)
 }
 loadDoc()
 
@@ -79,13 +81,27 @@ async function generateBtn(Data){
     button.classList.add('NavBtn')
     button.innerHTML = `<`
     Btn.appendChild(button)
-    for(var i = 0; i< Data.length; i++){
+
+    // setup function so that only 10 buttons will be displayed by the application
+    const half = Math.round(maxButtons / 2)
+    const total = Data.length
+    let to = maxButtons
+    if (currentBtn + half >= total){
+        to = total;
+    } else if (currentBtn > half){
+        to = currentBtn + half
+    }
+    let from = to - maxButtons
+    const end = Math.min(total, from + maxButtons);
+
+    for(var i = from; i< end; i++){
         var button = document.createElement('button')
         button.setAttribute('id', i)
         button.classList.add('NavBtn')
         button.innerHTML = `${i+1}`
         Btn.appendChild(button)
     }
+
     var button = document.createElement('button')
     button.setAttribute('id', '>')
     button.classList.add('NavBtn')
