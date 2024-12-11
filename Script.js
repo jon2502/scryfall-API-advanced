@@ -127,15 +127,15 @@ async function generateBtn(Data){
                     currentPage = currentPage - 1
                     break;                 
                 case 'end':
-                    currentPage = Data.length
+                    currentPage = Data.length - 1
                     break;
                 default:
                     currentPage = parseInt(this.id)
             }
             if(currentPage < 0){
                 currentPage = 0
-            } else if(currentPage > Data.length){
-                currentPage = Data.length
+            } else if(currentPage > Data.length - 1){
+                currentPage = Data.length - 1
             }
             setData(Data, currentPage)
         })
