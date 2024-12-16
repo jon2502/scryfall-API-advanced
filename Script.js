@@ -35,10 +35,38 @@ async function loadDoc() {
 }
 loadDoc()
 
+async function fetchSymbols() {
+    var response = await fetch(`${URL3}`)
+    var jsonData = await response.json();
+    SymbolMap = {}
+    jsonData.data.forEach(Symbol =>{
+        //for each symbol we add the symbol as the key and the svg link as the value
+        SymbolMap[Symbol.symbol] = Symbol.svg_uri;
+    })
+    return SymbolMap;
+}
+
+async function fetchSets() {
+    var response = await fetch(`${URL4}`)
+    var jsonData = await response.json();
+    console.log(jsonData)
+    for(var i = 0; i < SetSelect.children.length; i++){
+        var Filter = jsonData.data.filter(set =>
+            set.set_type === SetSelect.children[i].id
+        )
+        var curerenttype = document.getElementById(SetSelect.children[i].id)
+        for (let set of Filter){
+            var ALLCapscode = set.code.toUpperCase()
+            var instance = document.createElement('option')
+            instance.innerHTML = `${set.name} (${ALLCapscode})`
+            instance.setAttribute('value', `${set.code}`)
+            curerenttype.appendChild(instance)
+        }
+    }
+}
+fetchSets()
 
 async function generateimg(Data, i){
-    console.log(i)
-    console.log(Data[i])
     for (CardData of Data[i]) {
         if ('card_faces' in CardData){
                 const cards = document.createElement('div')
