@@ -4,95 +4,23 @@ var SetSelect = document.getElementById("sets")
 var FilterBtn = document.getElementById("FilterBtn")
 
 // required API URL's and file paths
-/*const oracle_cards = "Bulk_data/oracle_cards.json"
-const deafult_cards = "Bulk_data/default_cards.json"*/
 const URL1 = "https://api.scryfall.com/cards/search?q=in%3Apaper"
-const URL2 = 'https://api.scryfall.com/cards/named?exact='
-const URL3_1 = 'https://api.scryfall.com/cards/search?q=!"'
-const URL3_2 = '"+unique%3Aprints&unique=cards'
-const URL4 = 'https://api.scryfall.com/symbology'
-const URL5 = 'https://api.scryfall.com/sets'
+const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
+const URL2_2 = '"+unique%3Aprints&unique=cards'
+const URL3 = 'https://api.scryfall.com/symbology'
+const URL4 = 'https://api.scryfall.com/sets'
 
 
-let currentPage = 1
+let currentPage = 3
 const maxButtons = 10
 const page = "&page="
 
-/*
-async function loadDoc() {
-    const response = await fetch(oracle_cards);
-    var Data = await response.json();
-    //a list of formats where a card needs to be legal in atleast one. This is to make sure that arena exlusive cards are not included.
-    const includedformats = ["standard", "pioneer", "modern", "legacy", "vintage", "commander", "oathbreaker"]
-    //start with filtering the data to remove parts that arent necessary for displaying
-    Data = Data.filter(card => 
-        card.set_type !== "memorabilia" &&
-        card.layout !== "token" &&
-        card.layout !== "emblem" &&
-        card.layout !== "double_faced_token" &&
-        card.layout !== "planar" &&
-        card.type_line !== "Stickers" &&
-        !card.promo_types?.includes("playtest") &&
-        includedformats.some(format => card.legalities?.[format] === "legal")
-    )
-
-    // run next funcion with the JSON data as a parameter
-    ChunkData = []
-    const chunkSize = 50;
-    for(let i = 0; i< Data.length; i += chunkSize){
-        const chunk = Data.slice(i, i + chunkSize);
-        ChunkData.push(chunk)
-    }
-    generateimg(ChunkData, currentPage)
-    generateBtn(ChunkData, currentPage)
-}
-loadDoc()
-
-FilterBtn.addEventListener('click', async function(){
-    var results = $('#sets').val();
-    console.log(results)
-    if(results.length > 0){
-        cardsprint.innerHTML=""
-        Btn.innerHTML=""
-        const response = await fetch(deafult_cards);
-        var Data = await response.json();
-        //a list of formats where a card needs to be legal in atleast one. This is to make sure that arena exlusive cards are not included.
-        const includedformats = ["standard", "pioneer", "modern", "legacy", "vintage", "commander", "oathbreaker"]
-        //start with filtering the data to remove parts that arent necessary for displaying
-        Data = Data.filter(card => 
-            card.set_type !== "memorabilia" &&
-            card.layout !== "token" &&
-            card.layout !== "emblem" &&
-            card.layout !== "double_faced_token" &&
-            card.layout !== "planar" &&
-            card.type_line !== "Stickers" &&
-            !card.promo_types?.includes("playtest") &&
-            includedformats.some(format => card.legalities?.[format] === "legal") &&
-            results.some(set => card.set === set)
-        )
-        // run next funcion with the JSON data as a parameter
-        ChunkData = []
-        const chunkSize = 50;
-        for(let i = 0; i< Data.length; i += chunkSize){
-            const chunk = Data.slice(i, i + chunkSize);
-            ChunkData.push(chunk)
-        }
-        generateimg(ChunkData, currentPage)
-        generateBtn(ChunkData, currentPage)
-    }
-    
-})
-
-*/
-
 GenerateContent()
-
-
 
 async function fetchSymbols() {
     var response = await fetch(`${URL3}`)
     var jsonData = await response.json();
-    SymbolMap = {}
+    var SymbolMap = {}
     jsonData.data.forEach(Symbol =>{
         //for each symbol we add the symbol as the key and the svg link as the value
         SymbolMap[Symbol.symbol] = Symbol.svg_uri;
@@ -101,7 +29,7 @@ async function fetchSymbols() {
 }
 
 async function fetchSets() {
-    var response = await fetch(`${URL5}`)
+    var response = await fetch(`${URL4}`)
     var jsonData = await response.json();
     for(var i = 0; i < SetSelect.children.length; i++){
         var Filter = jsonData.data.filter(set =>
@@ -140,7 +68,10 @@ function formatSets(set){
 async function GenerateContent(){
     var response = await fetch(`${URL1}${page}${currentPage}`)
     var Data = await response.json()
+    console.log(Data)
     for (let CardData of Data.data) {
+        const cards = document.createElement('div')
+        cards.classList.add('card')
         if ('card_faces' in CardData){
                 const cards = document.createElement('div')
                 cards.classList.add('card')
@@ -153,17 +84,12 @@ async function GenerateContent(){
                         <img class="backSide" src=${CardData.card_faces[1].image_uris.normal}>
                     </div><button class="flipbtn">flip</button>`  
                 }
-                cardsprint.appendChild(cards)
-    
             } else {
-                const cards = document.createElement('div')
-                cards.classList.add('card')
                 cards.setAttribute("id", CardData.name);
-                cards.innerHTML=`<img src=${CardData.image_uris.normal}>`
-                cardsprint.appendChild(cards)
+                cards.innerHTML=`<img src=${CardData.image_uris.normal}>` 
             }
-            cardinfo = document.getElementById(CardData.name)
-            cardinfo.addEventListener('click', function(){
+            cardsprint.appendChild(cards)
+            cards.addEventListener('click', function(){
                 CreateInfoPage(CardData)
         })
     }
@@ -303,7 +229,7 @@ async function CreateInfoPage(cardData){
         //set up regex to remove text to be replaced
         const regex = /\{([A-Za-z0-9\+\-\/]+)\}/g;
         return text.replace(regex, (match, symbol) => {
-            NewSymbol = `{${symbol}}`
+            var NewSymbol = `{${symbol}}`
             if (symbolMap[NewSymbol]) {
                 //return an img with the svg link
                 return `<img src="${symbolMap[NewSymbol]}" alt="${NewSymbol}" class="symbol-icon">`;
