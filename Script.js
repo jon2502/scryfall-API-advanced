@@ -239,11 +239,10 @@ async function generateBtn(){
                 default:
                     currentPage = parseInt(this.id)
             }
-            if(currentPage < 0){
-                currentPage = 0
+            if(currentPage < 1){
+                currentPage = 1
             } else if(currentPage > total){
                 currentPage = total
-                console.log(currentPage)
             }
             setData(Data, currentPage)
         })
