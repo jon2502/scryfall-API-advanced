@@ -1,5 +1,5 @@
 var cardsprint = document.getElementById("cardsprint")
-var Btn = document.getElementById("Btn")
+var AllBtn = document.getElementById("Btn")
 var SetSelect = document.getElementById("sets")
 var FilterBtn = document.getElementById("FilterBtn")
 
@@ -85,8 +85,7 @@ FilterBtn.addEventListener('click', async function(){
 
 */
 
-generateimg()
-generateBtn()
+GenerateContent()
 
 
 
@@ -102,7 +101,7 @@ async function fetchSymbols() {
 }
 
 async function fetchSets() {
-    var response = await fetch(`${URL4}`)
+    var response = await fetch(`${URL5}`)
     var jsonData = await response.json();
     for(var i = 0; i < SetSelect.children.length; i++){
         var Filter = jsonData.data.filter(set =>
@@ -138,7 +137,7 @@ function formatSets(set){
 
 
 
-async function generateimg(){
+async function GenerateContent(){
     var response = await fetch(`${URL1}${page}${currentPage}`)
     var Data = await response.json()
     for (let CardData of Data.data) {
@@ -169,12 +168,7 @@ async function generateimg(){
         })
     }
         setflip()
-}
-
-async function generateBtn(){
-    var response = await fetch(`${URL1}${page}${currentPage}`)
-    var Data = await response.json()
-
+    
     var button = document.createElement('button')
     button.setAttribute('id', 'start')
     button.classList.add('NavBtn')
@@ -186,9 +180,9 @@ async function generateBtn(){
     button.innerHTML = `<`
     Btn.appendChild(button)
 
+    console.log(Data)
     const half = Math.round(maxButtons / 2)
     const total = Math.ceil(Data.total_cards / 175)
-    console.log(total)
     var to = maxButtons
 
     if (currentPage + half >= total){
@@ -234,7 +228,6 @@ async function generateBtn(){
                     break;                 
                 case 'end':
                     currentPage = total
-                    console.log(currentPage)
                     break;
                 default:
                     currentPage = parseInt(this.id)
@@ -244,17 +237,11 @@ async function generateBtn(){
             } else if(currentPage > total){
                 currentPage = total
             }
-            setData(Data, currentPage)
+            cardsprint.innerHTML=""
+            AllBtn.innerHTML=""
+            GenerateContent()
         })
     })
-}
-
-
-function setData(Data, id){
-    cardsprint.innerHTML=""
-    Btn.innerHTML=""
-    generateimg(Data, id)
-    generateBtn(Data, id)
 }
 
 // set a funcion that adds a class to the element on click 
