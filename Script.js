@@ -11,7 +11,7 @@ const URL3 = 'https://api.scryfall.com/symbology'
 const URL4 = 'https://api.scryfall.com/sets'
 
 
-let currentPage = 3
+let currentPage = 1
 const maxButtons = 10
 const page = "&page="
 
@@ -73,8 +73,6 @@ async function GenerateContent(){
         const cards = document.createElement('div')
         cards.classList.add('card')
         if ('card_faces' in CardData){
-                const cards = document.createElement('div')
-                cards.classList.add('card')
                 if (CardData.layout == "split" || CardData.layout == "adventure" || CardData.layout == "flip"){
                     cards.setAttribute("id", CardData.name);
                     cards.innerHTML=`<img src=${CardData.image_uris.normal}>`
@@ -89,7 +87,8 @@ async function GenerateContent(){
                 cards.innerHTML=`<img src=${CardData.image_uris.normal}>` 
             }
             cardsprint.appendChild(cards)
-            cards.addEventListener('click', function(){
+            var cardinfo = document.getElementById(CardData.name)
+            cardinfo.addEventListener('click', function(){
                 CreateInfoPage(CardData)
         })
     }
@@ -175,8 +174,9 @@ async function GenerateContent(){
 function setflip(){
     var flipButtons = document.querySelectorAll('.flipbtn')
     flipButtons.forEach(btn=>{
+        console.log(btn)
         btn.addEventListener('click',function(){
-            card = btn.parentElement.childNodes[0]
+            var card = btn.parentElement.childNodes[0]
             if(card.classList.contains('flip')){
                 card.classList.remove('flip')
             }else{
@@ -295,7 +295,7 @@ async function CreateInfoPage(cardData){
         setflip()
 
         for (let object of jsonData.data){
-            switchinfo = document.getElementById(object.id)
+            var switchinfo = document.getElementById(object.id)
             switchinfo.addEventListener('mouseover', function(){
 
             })
@@ -334,12 +334,12 @@ async function CreateInfoPage(cardData){
                         }
                     }else{
                         if(flavorText){
-                            flavorText.innerHTML = `${obj.card_faces[box.id].flavor_text}`;
+                            flavorText.innerHTML = `<i>${obj.card_faces[box.id].flavor_text}</i>`;
                         }else{
                             flavorText = document.createElement('p');
                             flavorText.classList.add('flavortext');
                             flavorText.setAttribute('id', `${box.id}`)
-                            flavorText.innerHTML=`${obj.card_faces[box.id].flavor_text}`
+                            flavorText.innerHTML=`<i>${obj.card_faces[box.id].flavor_text}</i>`
                             box.appendChild(flavorText);
                         }
                     }
@@ -355,12 +355,12 @@ async function CreateInfoPage(cardData){
                     }else {
                         if(flavorText){
                             //set flavortext to new value
-                            flavorText.innerHTML = `${obj.flavor_text}`;
+                            flavorText.innerHTML = `<i>${obj.flavor_text}</i>`;
                         }else{
                             // if flavor text dosent exist create it again
                             flavorText = document.createElement('p');
                             flavorText.classList.add('flavortext');
-                            flavorText.innerHTML=`${obj.flavor_text}`
+                            flavorText.innerHTML=`<i>${obj.flavor_text}</i>`
                             box.appendChild(flavorText);
                         }
                     }
