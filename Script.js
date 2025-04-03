@@ -1,5 +1,5 @@
 var cardsprint = document.getElementById("cardsprint")
-var AllBtn = document.getElementById("Btn")
+var BtnSection = document.getElementById("Btns")
 var SetSelect = document.getElementById("sets")
 var FilterBtn = document.getElementById("FilterBtn")
 
@@ -173,12 +173,12 @@ async function GenerateContent(){
     button.setAttribute('id', 'start')
     button.classList.add('NavBtn')
     button.innerHTML = `<<`
-    Btn.appendChild(button)
+    BtnSection.appendChild(button)
     var button = document.createElement('button')
     button.setAttribute('id', 'previous')
     button.classList.add('NavBtn')
     button.innerHTML = `<`
-    Btn.appendChild(button)
+    BtnSection.appendChild(button)
 
     console.log(Data)
     const half = Math.round(maxButtons / 2)
@@ -198,19 +198,19 @@ async function GenerateContent(){
         button.setAttribute('id', i + 1)
         button.classList.add('NavBtn')
         button.innerHTML = `${i+1}`
-        Btn.appendChild(button)
+        BtnSection.appendChild(button)
     }
 
     var button = document.createElement('button')
     button.setAttribute('id', 'next')
     button.classList.add('NavBtn')
     button.innerHTML = `>`
-    Btn.appendChild(button)
+    BtnSection.appendChild(button)
     var button = document.createElement('button')
     button.setAttribute('id', 'end')
     button.classList.add('NavBtn')
     button.innerHTML = `>>`
-    Btn.appendChild(button)
+    BtnSection.appendChild(button)
     var activeBtn = document.getElementById(currentPage)
     activeBtn.classList.add('active')
     var allBtn = document.querySelectorAll('.NavBtn')
@@ -238,7 +238,7 @@ async function GenerateContent(){
                 currentPage = total
             }
             cardsprint.innerHTML=""
-            AllBtn.innerHTML=""
+            BtnSection.innerHTML=""
             GenerateContent()
         })
     })

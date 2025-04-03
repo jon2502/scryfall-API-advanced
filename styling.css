@@ -15,6 +15,10 @@ body{
     grid-template-columns: repeat(5, 18vw);
 }
 
+#Btns{
+    margin-bottom: 2vh;
+}
+
 .card{
     position: relative;
     margin: 5px;
