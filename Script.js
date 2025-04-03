@@ -4,15 +4,16 @@ var SetSelect = document.getElementById("sets")
 var FilterBtn = document.getElementById("FilterBtn")
 
 // required API URL's and file paths
-const oracle_cards = "Bulk_data/oracle_cards.json"
-const deafult_cards = "Bulk_data/default_cards.json"
+/*const oracle_cards = "Bulk_data/oracle_cards.json"
+const deafult_cards = "Bulk_data/default_cards.json"*/
+const URL = "https://api.scryfall.com/cards/search?q=in%3Apaper"
 const URL1 = 'https://api.scryfall.com/cards/named?exact='
 const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
 const URL2_2 = '"+unique%3Aprints&unique=cards'
 const URL3 = 'https://api.scryfall.com/symbology'
 const URL4 = 'https://api.scryfall.com/sets'
 
-let currentPage = 0;
+/*let currentPage = 0;
 const maxButtons = 10
 
 async function loadDoc() {
@@ -42,7 +43,9 @@ async function loadDoc() {
     generateimg(ChunkData, currentPage)
     generateBtn(ChunkData, currentPage)
 }
-loadDoc()
+loadDoc()*/
+
+
 
 FilterBtn.addEventListener('click', async function(){
     var results = $('#sets').val();
