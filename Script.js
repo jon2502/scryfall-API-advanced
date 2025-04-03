@@ -6,16 +6,19 @@ var FilterBtn = document.getElementById("FilterBtn")
 // required API URL's and file paths
 /*const oracle_cards = "Bulk_data/oracle_cards.json"
 const deafult_cards = "Bulk_data/default_cards.json"*/
-const URL = "https://api.scryfall.com/cards/search?q=in%3Apaper"
-const URL1 = 'https://api.scryfall.com/cards/named?exact='
-const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
-const URL2_2 = '"+unique%3Aprints&unique=cards'
-const URL3 = 'https://api.scryfall.com/symbology'
-const URL4 = 'https://api.scryfall.com/sets'
+const URL1 = "https://api.scryfall.com/cards/search?q=in%3Apaper"
+const URL2 = 'https://api.scryfall.com/cards/named?exact='
+const URL3_1 = 'https://api.scryfall.com/cards/search?q=!"'
+const URL3_2 = '"+unique%3Aprints&unique=cards'
+const URL4 = 'https://api.scryfall.com/symbology'
+const URL5 = 'https://api.scryfall.com/sets'
 
-/*let currentPage = 0;
+
+let currentPage = 1
 const maxButtons = 10
+const page = "&page="
 
+/*
 async function loadDoc() {
     const response = await fetch(oracle_cards);
     var Data = await response.json();
@@ -43,9 +46,7 @@ async function loadDoc() {
     generateimg(ChunkData, currentPage)
     generateBtn(ChunkData, currentPage)
 }
-loadDoc()*/
-
-
+loadDoc()
 
 FilterBtn.addEventListener('click', async function(){
     var results = $('#sets').val();
@@ -81,6 +82,12 @@ FilterBtn.addEventListener('click', async function(){
     }
     
 })
+
+*/
+
+generateimg()
+generateBtn()
+
 
 
 async function fetchSymbols() {
@@ -131,8 +138,10 @@ function formatSets(set){
 
 
 
-async function generateimg(Data, i){
-    for (let CardData of Data[i]) {
+async function generateimg(){
+    var response = await fetch(`${URL1}${page}${currentPage}`)
+    var Data = await response.json()
+    for (let CardData of Data.data) {
         if ('card_faces' in CardData){
                 const cards = document.createElement('div')
                 cards.classList.add('card')
@@ -162,7 +171,10 @@ async function generateimg(Data, i){
         setflip()
 }
 
-async function generateBtn(Data, currentBtn){
+async function generateBtn(){
+    var response = await fetch(`${URL1}${page}${currentPage}`)
+    var Data = await response.json()
+
     var button = document.createElement('button')
     button.setAttribute('id', 'start')
     button.classList.add('NavBtn')
@@ -175,20 +187,21 @@ async function generateBtn(Data, currentBtn){
     Btn.appendChild(button)
 
     const half = Math.round(maxButtons / 2)
-    const total = Data.length
+    const total = Math.ceil(Data.total_cards / 175)
+    console.log(total)
     var to = maxButtons
 
-    if (currentBtn + half >= total){
+    if (currentPage + half >= total){
         to = total;
-    } else if (currentBtn > half){
-        to = currentBtn + half
+    } else if (currentPage > half){
+        to = currentPage + half
     }
     var from = to - maxButtons
     var end = Math.min(total, from + maxButtons);
 
     for(var i = from; i< end; i++){
         var button = document.createElement('button')
-        button.setAttribute('id', i)
+        button.setAttribute('id', i + 1)
         button.classList.add('NavBtn')
         button.innerHTML = `${i+1}`
         Btn.appendChild(button)
@@ -204,14 +217,14 @@ async function generateBtn(Data, currentBtn){
     button.classList.add('NavBtn')
     button.innerHTML = `>>`
     Btn.appendChild(button)
-    var activeBtn = document.getElementById(currentBtn)
+    var activeBtn = document.getElementById(currentPage)
     activeBtn.classList.add('active')
     var allBtn = document.querySelectorAll('.NavBtn')
     allBtn.forEach(Btn =>{
         Btn.addEventListener("click", function(){
             switch(this.id){
                 case 'start':
-                    currentPage = 0
+                    currentPage = 1
                     break;
                 case 'next':
                     currentPage = currentPage + 1
@@ -220,7 +233,7 @@ async function generateBtn(Data, currentBtn){
                     currentPage = currentPage - 1
                     break;                 
                 case 'end':
-                    currentPage = Data.length - 1
+                    currentPage = total
                     console.log(currentPage)
                     break;
                 default:
@@ -228,8 +241,8 @@ async function generateBtn(Data, currentBtn){
             }
             if(currentPage < 0){
                 currentPage = 0
-            } else if(currentPage > Data.length - 1){
-                currentPage = Data.length - 1
+            } else if(currentPage > total){
+                currentPage = total
                 console.log(currentPage)
             }
             setData(Data, currentPage)
