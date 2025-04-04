@@ -67,25 +67,22 @@ function formatSets(set){
     return $display
 }
 
+
+
 async function GenerateContent(){
     var response = await fetch(`${URL1}${page}${currentPage}`)
     var Data = await response.json()
     console.log(Data)
     for (let CardData of Data.data) {
         Display.CardIMG(CardData)
+        var cardinfo = document.getElementById(CardData.name)
+        cardinfo.addEventListener('click', function(){
+            CreateInfoPage(CardData)
+        })
     }
         setflip()
     
-    var button = document.createElement('button')
-    button.setAttribute('id', 'start')
-    button.classList.add('NavBtn')
-    button.innerHTML = `<<`
-    BtnSection.appendChild(button)
-    var button = document.createElement('button')
-    button.setAttribute('id', 'previous')
-    button.classList.add('NavBtn')
-    button.innerHTML = `<`
-    BtnSection.appendChild(button)
+    Display.BackButtons(BtnSection)
     
     const half = Math.round(maxButtons / 2)
     const total = Math.ceil(Data.total_cards / 175)
@@ -100,23 +97,11 @@ async function GenerateContent(){
     var end = Math.min(total, from + maxButtons);
 
     for(var i = from; i< end; i++){
-        var button = document.createElement('button')
-        button.setAttribute('id', i + 1)
-        button.classList.add('NavBtn')
-        button.innerHTML = `${i+1}`
-        BtnSection.appendChild(button)
+        Display.NumberButtons(BtnSection, i)
     }
 
-    var button = document.createElement('button')
-    button.setAttribute('id', 'next')
-    button.classList.add('NavBtn')
-    button.innerHTML = `>`
-    BtnSection.appendChild(button)
-    var button = document.createElement('button')
-    button.setAttribute('id', 'end')
-    button.classList.add('NavBtn')
-    button.innerHTML = `>>`
-    BtnSection.appendChild(button)
+    Display.ForwardButtons(BtnSection)
+
     var activeBtn = document.getElementById(currentPage)
     activeBtn.classList.add('active')
     var allBtn = document.querySelectorAll('.NavBtn')
@@ -171,6 +156,7 @@ function setflip(){
 async function CreateInfoPage(cardData){
     const symbolMap = await fetchSymbols();
     // get data for each prinitng of a card
+    console.log(cardData.name)
     const response = await fetch(`${URL2_1}${cardData.name}${URL2_2}`);
     const jsonData = await response.json();
 

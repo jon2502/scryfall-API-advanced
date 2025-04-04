@@ -17,14 +17,41 @@ function CardIMG (CardData){
             cards.innerHTML=`<img src=${CardData.image_uris.normal}>` 
         }
         cardsprint.appendChild(cards)
-        var cardinfo = document.getElementById(CardData.name)
-        cardinfo.addEventListener('click', function(){
-            CreateInfoPage(CardData)
-    })
 }
 
-function Buttons (){
-
+function BackButtons (BtnSection){
+    var button = document.createElement('button')
+    button.setAttribute('id', 'start')
+    button.classList.add('NavBtn')
+    button.innerHTML = `<<`
+    BtnSection.appendChild(button)
+    var button = document.createElement('button')
+    button.setAttribute('id', 'previous')
+    button.classList.add('NavBtn')
+    button.innerHTML = `<`
+    BtnSection.appendChild(button)
 }
 
-export {CardIMG, Buttons}
+function NumberButtons(BtnSection,i){
+    var button = document.createElement('button')
+    button.setAttribute('id', i + 1)
+    button.classList.add('NavBtn')
+    button.innerHTML = `${i+1}`
+    BtnSection.appendChild(button)
+}
+
+function ForwardButtons(BtnSection){
+    var button = document.createElement('button')
+    button.setAttribute('id', 'next')
+    button.classList.add('NavBtn')
+    button.innerHTML = `>`
+    BtnSection.appendChild(button)
+    var button = document.createElement('button')
+    button.setAttribute('id', 'end')
+    button.classList.add('NavBtn')
+    button.innerHTML = `>>`
+    BtnSection.appendChild(button)
+}
+
+
+export {CardIMG, BackButtons, NumberButtons, ForwardButtons}
