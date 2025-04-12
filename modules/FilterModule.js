@@ -11,9 +11,11 @@ async function SetFilter(){
         case 1 :
             return `set:${SelectedSets[0]}`
         default:
-            return console.log(SelectedSets)
+            return `(${SelectedSets.map((i)=> `set:${i} or `).join('').slice(0, -4)})`
     }
 }
+
+//${data.affiliation.map((i)=> `${i}, `).slice(0, -2)}
 
 function FilterFunction(){
     let sets = SetFilter()
