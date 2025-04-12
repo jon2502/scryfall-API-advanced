@@ -1,5 +1,6 @@
 //JavaScript moudules
 import * as Display from "./modules/DisplayModule.js"
+import * as Filter from "/modules/FilterModule.js"
 
 //HTML DOM elements
 var cardsprint = document.getElementById("cardsprint")
@@ -8,7 +9,7 @@ var SetSelect = document.getElementById("sets")
 var FilterBtn = document.getElementById("FilterBtn")
 
 // required API URL's and file paths
-const URL1 = "https://api.scryfall.com/cards/search?q=in%3Apaper"
+const URL1 = "https://api.scryfall.com/cards/search?q="
 const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
 const URL2_2 = '"+unique%3Aprints&unique=cards'
 const URL3 = 'https://api.scryfall.com/symbology'
@@ -18,6 +19,9 @@ const URL4 = 'https://api.scryfall.com/sets'
 let currentPage = 1
 const maxButtons = 10
 const page = "&page="
+const legal = "(f:standard or f:pioneer or f:modern or f:legacy or f:vintage or f:commander or f:oathbreaker)"
+
+let savedURL = `${URL1}${legal}${page}`
 
 GenerateContent()
 
@@ -70,7 +74,8 @@ function formatSets(set){
 
 
 async function GenerateContent(){
-    var response = await fetch(`${URL1}${page}${currentPage}`)
+    Filter.FilterFunction()
+    var response = await fetch(`${savedURL}${currentPage}`)
     var Data = await response.json()
     console.log(Data)
     for (let CardData of Data.data) {
