@@ -3,10 +3,12 @@ import * as Display from "./modules/DisplayModule.js"
 import * as Filter from "/modules/FilterModule.js"
 
 //HTML DOM elements
-var cardsprint = document.getElementById("cardsprint")
-var BtnSection = document.getElementById("Btns")
-var SetSelect = document.getElementById("sets")
-var FilterBtn = document.getElementById("FilterBtn")
+const cardsprint = document.getElementById("cardsprint")
+const BtnSection = document.getElementById("Btns")
+const SetSelect = document.getElementById("sets")
+
+const filterMenu = document.getElementById("menu")
+const FilterBtn = document.getElementById("FilterBtn")
 
 // required API URL's and file paths
 const URL1 = "https://api.scryfall.com/cards/search?q="
@@ -21,7 +23,23 @@ const maxButtons = 10
 const page = "&page="
 const legal = "(f:standard or f:pioneer or f:modern or f:legacy or f:vintage or f:commander or f:oathbreaker)"
 
+//the base url combination
+const baseURL = `${URL1}${legal}${page}`
+//the saved url is made to be mutable and change based on filters
 let savedURL = `${URL1}${legal}${page}`
+
+async function setSymbolsforFilter(){
+    const symbolMap = await fetchSymbols();
+    const ColorChildren = document.getElementById("colors").childNodes
+    console.log(ColorChildren)
+    ColorChildren.forEach(color =>{
+        if(typeof color.innerHTML == "string"){
+            color.innerHTML=replaceSymbolsWithSVGs(color.innerHTML,symbolMap)
+        }
+        
+    })
+}
+setSymbolsforFilter()
 
 GenerateContent()
 
@@ -74,7 +92,6 @@ function formatSets(set){
 
 
 async function GenerateContent(){
-    Filter.FilterFunction()
     var response = await fetch(`${savedURL}${currentPage}`)
     var Data = await response.json()
     console.log(Data)
@@ -140,6 +157,10 @@ async function GenerateContent(){
     })
 }
 
+async function xxx(){
+    let selectedFilters = Filter.FilterFunction()
+}
+
 // set a funcion that adds a class to the element on click 
 //which cahnges the styling of the card resulting in it showing the element beneth it
 function setflip(){
@@ -156,6 +177,23 @@ function setflip(){
         })
     })
 }
+
+function replaceSymbolsWithSVGs(text, symbolMap){
+    //set up regex to remove text to be replaced
+    console.log(text)
+    const regex = /\{([A-Za-z0-9\+\-\/]+)\}/g;
+    return text.replace(regex, (match, symbol) => {
+        var NewSymbol = `{${symbol}}`
+        if (symbolMap[NewSymbol]) {
+            //return an img with the svg link
+            return `<img src="${symbolMap[NewSymbol]}" alt="${NewSymbol}" class="symbol-icon">`;
+        }
+        // If no SVG is found, return the symbol as is
+        return match;
+    });
+}
+
+
 
 // infopage taken from 
 async function CreateInfoPage(cardData){
@@ -195,20 +233,6 @@ async function CreateInfoPage(cardData){
         ${'power' in cardData ?`
         <p>${cardData.card_faces[i].power}/${cardData.card_faces[i].toughness}</p>
         `:``}`
-    }
-    
-    function replaceSymbolsWithSVGs(text, symbolMap){
-        //set up regex to remove text to be replaced
-        const regex = /\{([A-Za-z0-9\+\-\/]+)\}/g;
-        return text.replace(regex, (match, symbol) => {
-            var NewSymbol = `{${symbol}}`
-            if (symbolMap[NewSymbol]) {
-                //return an img with the svg link
-                return `<img src="${symbolMap[NewSymbol]}" alt="${NewSymbol}" class="symbol-icon">`;
-            }
-            // If no SVG is found, return the symbol as is
-            return match;
-        });
     }
 
     var Info = document.createElement('section')
