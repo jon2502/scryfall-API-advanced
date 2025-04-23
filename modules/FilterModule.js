@@ -1,6 +1,5 @@
 
 async function SetFilter(){
-    //var baseURL = ""
     var getsets = document.getElementById("sets")
     var SelectedSets = Array.from(getsets.selectedOptions)
                 .map(option => option.value)
@@ -15,10 +14,14 @@ async function SetFilter(){
     }
 }
 
-//${data.affiliation.map((i)=> `${i}, `).slice(0, -2)}
+async function ColorFilter(){
+
+}
 
 function FilterFunction(){
     let sets = SetFilter()
+    let color = ColorFilter()
+    console.log(color)
     console.log(sets)
     // how the url will be send to the main js after we have filterd it
     /*let url = ``
