@@ -1,6 +1,6 @@
 //JavaScript moudules
 import * as Display from "./modules/DisplayModule.js"
-import * as Filter from "/modules/FilterModule.js"
+import * as Filter from "./modules/FilterModule.js"
 
 //HTML DOM elements
 const cardsprint = document.getElementById("cardsprint")
