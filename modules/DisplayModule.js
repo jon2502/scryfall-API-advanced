@@ -69,13 +69,14 @@ function DisplayInfo(cardData, symbolMap, jsonData){
         <hr>
         <div>
             <p>${Funcions.replaceSymbolsWithSVGs(card.oracle_text,symbolMap)}</p>
+            <hr>
         </div>
-        <div class="flavorBox" ${index != null ?`id="${index}"`:``}>
         ${'flavor_text' in card ?`
+        <div class="flavorBox" ${index != null ? `id="${index}"`:``}>
             <p class="flavortext"><i>${card.flavor_text}</i></p>
             <hr>
-        `:``}
         </div>
+        `:``}
         ${'power' in card ?`
         <p>${card.power}/${card.toughness}</p>
         <hr>
