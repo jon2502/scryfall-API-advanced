@@ -11,7 +11,7 @@ const SetSelect = document.getElementById("sets")
 const filterMenu = document.getElementById("menu")
 const FilterBtn = document.getElementById("FilterBtn")
 
-// required API URL's and file paths
+// required API URL's
 const URL1 = "https://api.scryfall.com/cards/search?q="
 const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
 const URL2_2 = '"+unique%3Aprints&unique=cards'
@@ -20,7 +20,8 @@ const URL4 = 'https://api.scryfall.com/sets'
 
 
 let currentPage = 1
-const maxButtons = 10
+const BasemaxButtons = 10
+let CurrentMaxButtons = 10
 const page = "&page="
 const legal = "(f:standard or f:pioneer or f:modern or f:legacy or f:vintage or f:commander or f:oathbreaker)"
 
@@ -107,17 +108,17 @@ async function GenerateContent(){
     
     Display.BackButtons(BtnSection)
     
-    const half = Math.round(maxButtons / 2)
+    const half = Math.round(CurrentMaxButtons / 2)
     const total = Math.ceil(Data.total_cards / 175)
-    var to = maxButtons
+    var to = CurrentMaxButtons
 
     if (currentPage + half >= total){
         to = total;
     } else if (currentPage > half){
         to = currentPage + half
     }
-    var from = to - maxButtons
-    var end = Math.min(total, from + maxButtons);
+    var from = to - CurrentMaxButtons
+    var end = Math.min(total, from + CurrentMaxButtons);
 
     for(var i = from; i< end; i++){
         Display.NumberButtons(BtnSection, i)
@@ -221,7 +222,7 @@ async function CreateInfoPage(cardData){
             }else{
                 cardart.setAttribute('src', obj.image_uris.normal,)
             }
-            
+
             artistName.innerText=`Illustrated by ${obj.artist}`
 
             //check if card is doublefaced and has two flavorboxes for doublefaced cards

@@ -59,19 +59,26 @@ function ForwardButtons(BtnSection){
 //Overlay display
 function DisplayInfo(cardData, symbolMap, jsonData){
 
-    const generateTextBoxHTML = (i) => {
-        return`<h1>${cardData.card_faces[i].name} ${Funcions.replaceSymbolsWithSVGs(cardData.card_faces[i].mana_cost, symbolMap)}</h1>
-        <p>${cardData.card_faces[i].type_line}</p>
+    //${'check if card has index' in card ?`id="${index}"`:``}
+    const generateTextBoxHTML = (card, index) => {
+        console.log(card)
+        return`
+        <h1>${card.name} ${Funcions.replaceSymbolsWithSVGs(card.mana_cost, symbolMap)}</h1>
+        <hr>
+        <p>${card.type_line}</p>
+        <hr>
         <div>
-            <p>${Funcions.replaceSymbolsWithSVGs(cardData.card_faces[i].oracle_text,symbolMap)}</p>
+            <p>${Funcions.replaceSymbolsWithSVGs(card.oracle_text,symbolMap)}</p>
         </div>
-        <div class="flavorBox" id="${i}">
-        ${'flavor_text' in cardData.card_faces[i] ?`
-            <p class="flavortext"><i>${cardData.card_faces[i].flavor_text}</i></p>
+        <div class="flavorBox" ${index != null ?`id="${index}"`:``}>
+        ${'flavor_text' in card ?`
+            <p class="flavortext"><i>${card.flavor_text}</i></p>
+            <hr>
         `:``}
         </div>
-        ${'power' in cardData ?`
-        <p>${cardData.card_faces[i].power}/${cardData.card_faces[i].toughness}</p>
+        ${'power' in card ?`
+        <p>${card.power}/${card.toughness}</p>
+        <hr>
         `:``}`
     }
 
@@ -89,10 +96,10 @@ function DisplayInfo(cardData, symbolMap, jsonData){
             </section>
             <section id="textbox">
                 <div id="frontFaceText">
-                    ${/* generate info for each of the cardfaces of a doublefaced card*/ generateTextBoxHTML(0)}
+                    ${/* generate info for each of the cardfaces of a doublefaced card*/ generateTextBoxHTML(cardData.card_faces[0], 0)}
                 </div>
                 <div id="backSideText">
-                    ${generateTextBoxHTML(1)}
+                    ${generateTextBoxHTML(cardData.card_faces[1], 1)}
                 </div>
                 <p id="artist">Illustrated by ${cardData.artist}</p>
             </section>
@@ -101,23 +108,7 @@ function DisplayInfo(cardData, symbolMap, jsonData){
             <img id="singlecard" src=${cardData.image_uris.normal}>
             </section>
             <section id="textbox">
-                <h1>${cardData.name} ${Funcions.replaceSymbolsWithSVGs(cardData.mana_cost, symbolMap)}</h1>
-                <hr>
-                <p>${cardData.type_line}</p>
-                <hr>
-                <div>
-                    <p>${Funcions.replaceSymbolsWithSVGs(cardData.oracle_text, symbolMap)}</p>
-                </div>
-                <div class="flavorBox">
-                ${'flavor_text' in cardData ?`
-                    <p class="flavortext"><i>${cardData.flavor_text}</i></p>
-                    <hr>
-                `:``}
-                </div>
-                ${'power' in cardData ? /* check if the card has a power value this is beacus only creatur cards has a power toughness value */`
-                    <p>${cardData.power}/${cardData.toughness}</p>
-                    <hr>
-                `:``}
+                ${generateTextBoxHTML(cardData, null)}
             <p id="artist">Illustrated by ${cardData.artist}</p>
             </section>
             `}
