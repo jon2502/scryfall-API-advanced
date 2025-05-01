@@ -161,7 +161,19 @@ async function GenerateContent(){
 
 async function xxx(){
     let selectedFilters = Filter.FilterFunction()
+    savedURL = selectedFilters
+    cardsprint.innerHTML=""
+    BtnSection.innerHTML=""
+    GenerateContent()
 }
+
+async function resetFilter(){
+    savedURL = baseURL
+    cardsprint.innerHTML=""
+    BtnSection.innerHTML=""
+    GenerateContent()
+}
+
 
 
 // infopage taken from 
