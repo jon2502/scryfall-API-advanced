@@ -1,8 +1,8 @@
 function replaceSymbolsWithSVGs(text, symbolMap){
     //set up regex to remove text to be replaced
-    console.log(text)
+    var newtext = text.replace(/\n/g, "<br />");
     const regex = /\{([A-Za-z0-9\+\-\/]+)\}/g;
-    return text.replace(regex, (match, symbol) => {
+    return newtext.replace(regex, (match, symbol) => {
         var NewSymbol = `{${symbol}}`
         if (symbolMap[NewSymbol]) {
             //return an img with the svg link
@@ -12,6 +12,8 @@ function replaceSymbolsWithSVGs(text, symbolMap){
         return match;
     });
 }
+
+
 
 // set a funcion that adds a class to the element on click 
 //which cahnges the styling of the card resulting in it showing the element beneth it
