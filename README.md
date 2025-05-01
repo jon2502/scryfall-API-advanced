@@ -5,9 +5,7 @@
 - HTML
 - CSS
 - JavaScript
+- javaScript modules
 - Select2
 - jQuery
 - API
-
-## Plans for the future
-I plan to later remake the application to make use of JavaScript modules for ease of development.
