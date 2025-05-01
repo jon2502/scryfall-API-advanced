@@ -13,8 +13,6 @@ function replaceSymbolsWithSVGs(text, symbolMap){
     });
 }
 
-
-
 // set a funcion that adds a class to the element on click 
 //which cahnges the styling of the card resulting in it showing the element beneth it
 function setflip(){
@@ -32,4 +30,52 @@ function setflip(){
     })
 }
 
-export {replaceSymbolsWithSVGs, setflip}
+function editFlavorText(obj, flavorBox){
+    //check if card is doublefaced and has two flavorboxes for doublefaced cards
+            //added to make sure everything is done correctly and the change of data doesent destroy the defult UI for the data
+            
+            if(flavorBox.length > 1){
+                flavorBox.forEach(box => {
+                    var flavorText = box.querySelector('.flavortext');
+                    if (!obj.card_faces[box.id].flavor_text) {
+                        if(flavorText){
+                            flavorText.innerHTML = ''; // Clear flavor text if it doesn't exist
+                        }
+                    }else{
+                        //check if flavor text already exist else add it againg
+                        if(flavorText){
+                            flavorText.innerHTML = `<i>${obj.card_faces[box.id].flavor_text}</i>`;
+                        }else{
+                            flavorText = document.createElement('p');
+                            flavorText.classList.add('flavortext');
+                            flavorText.setAttribute('id', `${box.id}`)
+                            flavorText.innerHTML=`<i>${obj.card_faces[box.id].flavor_text}</i>`
+                            box.appendChild(flavorText);
+                        }
+                    }
+                })
+            } else {
+                flavorBox.forEach(box => {
+                    var flavorText = box.querySelector('.flavortext');
+                    // Clear flavor text if it doesn't exist in the new data
+                    if (!obj.flavor_text) {
+                        if(flavorText){
+                            flavorText.innerHTML = ''; 
+                        }
+                    }else {
+                        if(flavorText){
+                            //set flavortext to new value
+                            flavorText.innerHTML = `<i>${obj.flavor_text}</i>`;
+                        }else{
+                            // if flavor text dosent exist create it again
+                            flavorText = document.createElement('p');
+                            flavorText.classList.add('flavortext');
+                            flavorText.innerHTML=`<i>${obj.flavor_text}</i>`
+                            box.appendChild(flavorText);
+                        }
+                    }
+                });
+            }
+}
+
+export {replaceSymbolsWithSVGs, setflip, editFlavorText}
