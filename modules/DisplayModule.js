@@ -97,7 +97,7 @@ function DisplayInfo(cardData, symbolMap, jsonData){
             </section>
             <section id="textbox">
                 <div id="frontFaceText">
-                    ${/* generate info for each of the cardfaces of a doublefaced card*/ generateTextBoxHTML(cardData.card_faces[0], 0)}
+                    ${generateTextBoxHTML(cardData.card_faces[0], 0)}
                 </div>
                 <div id="backSideText">
                     ${generateTextBoxHTML(cardData.card_faces[1], 1)}
