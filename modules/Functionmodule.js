@@ -32,50 +32,75 @@ function setflip(){
 
 function editFlavorText(obj, flavorBox){
     //check if card is doublefaced and has two flavorboxes for doublefaced cards
-            //added to make sure everything is done correctly and the change of data doesent destroy the defult UI for the data
-            
-            if(flavorBox.length > 1){
-                flavorBox.forEach(box => {
-                    var flavorText = box.querySelector('.flavortext');
-                    if (!obj.card_faces[box.id].flavor_text) {
-                        if(flavorText){
-                            flavorText.innerHTML = ''; // Clear flavor text if it doesn't exist
-                        }
-                    }else{
-                        //check if flavor text already exist else add it againg
-                        if(flavorText){
-                            flavorText.innerHTML = `<i>${obj.card_faces[box.id].flavor_text}</i>`;
-                        }else{
-                            flavorText = document.createElement('p');
-                            flavorText.classList.add('flavortext');
-                            flavorText.setAttribute('id', `${box.id}`)
-                            flavorText.innerHTML=`<i>${obj.card_faces[box.id].flavor_text}</i>`
-                            box.appendChild(flavorText);
-                        }
-                    }
-                })
-            } else {
-                flavorBox.forEach(box => {
-                    var flavorText = box.querySelector('.flavortext');
-                    // Clear flavor text if it doesn't exist in the new data
-                    if (!obj.flavor_text) {
-                        if(flavorText){
-                            flavorText.innerHTML = ''; 
-                        }
-                    }else {
-                        if(flavorText){
-                            //set flavortext to new value
-                            flavorText.innerHTML = `<i>${obj.flavor_text}</i>`;
-                        }else{
-                            // if flavor text dosent exist create it again
-                            flavorText = document.createElement('p');
-                            flavorText.classList.add('flavortext');
-                            flavorText.innerHTML=`<i>${obj.flavor_text}</i>`
-                            box.appendChild(flavorText);
-                        }
-                    }
-                });
+    //added to make sure everything is done correctly and the change of data doesent destroy the defult UI for the data
+    if(flavorBox.length > 1){
+        flavorBox.forEach(box => {
+            var flavorText = box.querySelector('.flavortext');
+            if (!obj.card_faces[box.id].flavor_text) {
+                if(flavorText){
+                    flavorText.innerHTML = ''; // Clear flavor text if it doesn't exist
+                }
+            }else{
+                //check if flavor text already exist else add it againg
+                if(flavorText){
+                    flavorText.innerHTML = `<i>${obj.card_faces[box.id].flavor_text}</i>`;
+                }else{
+                    flavorText = document.createElement('p');
+                    flavorText.classList.add('flavortext');
+                    flavorText.setAttribute('id', `${box.id}`)
+                    flavorText.innerHTML=`<i>${obj.card_faces[box.id].flavor_text}</i>`
+                    box.appendChild(flavorText);
+                }
             }
+        })
+    } else {
+        flavorBox.forEach(box => {
+            var flavorText = box.querySelector('.flavortext');
+            // Clear flavor text if it doesn't exist in the new data
+            if (!obj.flavor_text) {
+                if(flavorText){
+                    flavorText.innerHTML = ''; 
+                }
+            }else {
+                if(flavorText){
+                    //set flavortext to new value
+                    flavorText.innerHTML = `<i>${obj.flavor_text}</i>`;
+                }else{
+                    // if flavor text dosent exist create it again
+                    flavorText = document.createElement('p');
+                    flavorText.classList.add('flavortext');
+                    flavorText.innerHTML=`<i>${obj.flavor_text}</i>`
+                    box.appendChild(flavorText);
+                }
+            }
+        });
+    }
 }
 
-export {replaceSymbolsWithSVGs, setflip, editFlavorText}
+function changeCurrentBTN(Btn, currentPage, total){
+    switch(Btn.id){
+        case 'start':
+            currentPage = 1
+            break;
+        case 'next':
+            currentPage = currentPage + 1
+            break;
+        case 'previous':
+            currentPage = currentPage - 1
+            break;                 
+        case 'end':
+            currentPage = total
+            break;
+        default:
+            currentPage = parseInt(Btn.id)
+    }
+    if(currentPage < 1){
+        currentPage = 1
+    } else if(currentPage > total){
+        currentPage = total
+    }
+
+    return currentPage
+}
+
+export {replaceSymbolsWithSVGs, setflip, editFlavorText, changeCurrentBTN}

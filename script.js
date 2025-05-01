@@ -18,10 +18,11 @@ const URL2_2 = '"+unique%3Aprints&unique=cards'
 const URL3 = 'https://api.scryfall.com/symbology'
 const URL4 = 'https://api.scryfall.com/sets'
 
-
+//page values
 let currentPage = 1
 const BasemaxButtons = 10
 let CurrentMaxButtons = 10
+
 const page = "&page="
 const legal = "(f:standard or f:pioneer or f:modern or f:legacy or f:vintage or f:commander or f:oathbreaker)"
 
@@ -131,27 +132,8 @@ async function GenerateContent(){
     var allBtn = document.querySelectorAll('.NavBtn')
     allBtn.forEach(Btn =>{
         Btn.addEventListener("click", function(){
-            switch(this.id){
-                case 'start':
-                    currentPage = 1
-                    break;
-                case 'next':
-                    currentPage = currentPage + 1
-                    break;
-                case 'previous':
-                    currentPage = currentPage - 1
-                    break;                 
-                case 'end':
-                    currentPage = total
-                    break;
-                default:
-                    currentPage = parseInt(this.id)
-            }
-            if(currentPage < 1){
-                currentPage = 1
-            } else if(currentPage > total){
-                currentPage = total
-            }
+            currentPage = Funcions.changeCurrentBTN(Btn, currentPage, total)
+            console.log(currentPage)
             cardsprint.innerHTML=""
             BtnSection.innerHTML=""
             GenerateContent()
