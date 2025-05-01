@@ -1,6 +1,6 @@
 function replaceSymbolsWithSVGs(text, symbolMap){
     //set up regex to remove text to be replaced
-    var newtext = text.replace(/\n/g, "<br />");
+    var newtext = text.replace(/\n/g, "<br>");
     const regex = /\{([A-Za-z0-9\+\-\/]+)\}/g;
     return newtext.replace(regex, (match, symbol) => {
         var NewSymbol = `{${symbol}}`
