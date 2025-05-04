@@ -60,19 +60,24 @@
             </optgroup>
         </select>
         <section id="colors">
-            <input type="checkbox" name="W" id="W"/>
+            <input type="checkbox" name="white" id="white" value="W"/>
             <label for="white">{W} White</label>
-            <input type="checkbox" name="U" id="U"/>
+            <input type="checkbox" name="blue" id="blue" value="U"/>
             <label for="blue">{U} Blue</label>
-            <input type="checkbox" name="B" id="B"/>
+            <input type="checkbox" name="black" id="black" value="B"/>
             <label for="black">{B} Black</label>
-            <input type="checkbox" name="R" id="R"/>
+            <input type="checkbox" name="red" id="red" value="R"/>
             <label for="red">{R} Red</label>
-            <input type="checkbox" name="G" id="G"/>
+            <input type="checkbox" name="green" id="green" value="C"/>
             <label for="green">{G} Green</label>
-            <input type="checkbox" name="C" id="C"/>
+            <input type="checkbox" name="colorless" id="colorless" value="C"/>
             <label for="colorless">{C} Colorless</label>
         </section>
+        <select name="colorSelector" id="colorSelector">
+            <option value="=">Exactly these colors</option>
+            <option value=">=">Including these colors</option>
+            <option value="<=">At most these colors</option>
+        </select>
         <button id="FilterBtn">Filter</button>
     </section>
     <section id="cardsprint">

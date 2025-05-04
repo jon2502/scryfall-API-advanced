@@ -141,12 +141,14 @@ async function GenerateContent(){
     })
 }
 
-async function xxx(){
+FilterBtn.addEventListener("click", SetFilter)
+async function SetFilter(){
     let selectedFilters = Filter.FilterFunction()
-    savedURL = selectedFilters
+     /*savedURL = selectedFilters
+    console.log(savedURL)
     cardsprint.innerHTML=""
     BtnSection.innerHTML=""
-    GenerateContent()
+    GenerateContent()*/
 }
 
 async function resetFilter(){
