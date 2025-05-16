@@ -30,6 +30,14 @@ function setflip(){
     })
 }
 
+function CheckColor(){
+    
+    if(x){
+        
+    }
+    return
+}
+
 function editFlavorText(obj, flavorBox){
     //check if card is doublefaced and has two flavorboxes for doublefaced cards
     //added to make sure everything is done correctly and the change of data doesent destroy the defult UI for the data
@@ -99,8 +107,7 @@ function changeCurrentBTN(Btn, currentPage, total){
     } else if(currentPage > total){
         currentPage = total
     }
-
     return currentPage
 }
 
-export {replaceSymbolsWithSVGs, setflip, editFlavorText, changeCurrentBTN}
+export {replaceSymbolsWithSVGs, setflip, CheckColor, editFlavorText, changeCurrentBTN}

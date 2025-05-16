@@ -1,5 +1,5 @@
 
-async function SetFilter(){
+function SetFilter(){
     var getsets = document.getElementById("sets")
     var SelectedSets = Array.from(getsets.selectedOptions)
                 .map(option => option.value)
@@ -7,41 +7,44 @@ async function SetFilter(){
         case 0 :
             return null
         case 1 :
-            return `set:${SelectedSets[0]}`
+            return `set:${SelectedSets[0]} `
         default:
-            return `(${SelectedSets.map((i)=> `set:${i} or `).join('').slice(0, -4)})`
+            return `(${SelectedSets.map((i)=> `set:${i} or `).join('').slice(0, -4)}) `
     }
 }
 
-async function ColorFilter(){
+function ColorFilter(){
     var getColors = document.querySelectorAll('#colors input[type="checkbox"]:checked');
-    console.log(getColors)
     var SelectedColors = Array.from(getColors)
                 .map(option => option.value)
+    //make sure that any colors are selected at all
     if (SelectedColors.length>0){
-        console.log('test')
         var colorSelector = document.getElementById('colorSelector').value
-        console.log(colorSelector)
         switch(colorSelector){
             case '=' :
-                return `color=${SelectedColors.map((i)=>`${i}`).join('')}`
+                return `color=${SelectedColors.map((i)=>`${i}`).join('')} `
             case '>=' :
-                return `color>=${SelectedColors.map((i)=>`${i}`).join('')}`
+                return `color>=${SelectedColors.map((i)=>`${i}`).join('')} `
             case '<=':
-                return `color<=${SelectedColors.map((i)=>`${i}`).join('')}`
+                return `color<=${SelectedColors.map((i)=>`${i}`).join('')} `
         }
     }
     return null
 }
 
+function checkStatus(val){
+    return `${val != null ? `${val}`:``}`
+}
+
 function FilterFunction(){
-    //let sets = SetFilter()
+    let sets = SetFilter()
     let color = ColorFilter()
     console.log(color)
-    //console.log(sets)
+    console.log(sets)
     // how the url will be send to the main js after we have filterd it
-    /*let url = ``
-    return url*/
+    let url = `(game:paper)${checkStatus(sets)}${checkStatus(color)}&page=`
+    console.log(url)
+    return url
 }
 
 

@@ -92,9 +92,8 @@ function formatSets(set){
     return $display
 }
 
-
-
 async function GenerateContent(){
+    console.log(`${savedURL}${currentPage}`)
     var response = await fetch(`${savedURL}${currentPage}`)
     var Data = await response.json()
     console.log(Data)
@@ -111,6 +110,11 @@ async function GenerateContent(){
     
     const half = Math.round(CurrentMaxButtons / 2)
     const total = Math.ceil(Data.total_cards / 175)
+    if(total < 10){
+        CurrentMaxButtons = total
+    }else{
+        CurrentMaxButtons = BasemaxButtons
+    }
     var to = CurrentMaxButtons
 
     if (currentPage + half >= total){
@@ -144,11 +148,11 @@ async function GenerateContent(){
 FilterBtn.addEventListener("click", SetFilter)
 async function SetFilter(){
     let selectedFilters = Filter.FilterFunction()
-     /*savedURL = selectedFilters
-    console.log(savedURL)
+    savedURL = `${URL1}${selectedFilters}`
+    currentPage = 1
     cardsprint.innerHTML=""
     BtnSection.innerHTML=""
-    GenerateContent()*/
+    GenerateContent()
 }
 
 async function resetFilter(){
