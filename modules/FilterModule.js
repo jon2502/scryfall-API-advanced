@@ -41,7 +41,7 @@ function FilterFunction(){
     let color = ColorFilter()
     console.log(color)
     console.log(sets)
-    // how the url will be send to the main js after we have filterd it
+    // setup url and check if the status of the filteres arent null
     let url = `(game:paper)${checkStatus(sets)}${checkStatus(color)}&page=`
     console.log(url)
     return url
