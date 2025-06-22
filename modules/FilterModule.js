@@ -42,7 +42,7 @@ function FilterFunction(){
     console.log(color)
     console.log(sets)
     // setup url and check if the status of the filteres arent null
-    let url = `(game:paper)${checkStatus(sets)}${checkStatus(color)}&page=`
+    let url = `${checkStatus(sets)}${checkStatus(color)}&page=`
     console.log(url)
     return url
 }

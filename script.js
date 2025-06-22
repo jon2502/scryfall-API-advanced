@@ -7,6 +7,8 @@ import * as Funcions from "./modules/Functionmodule.js"
 const cardsprint = document.getElementById("cardsprint")
 const BtnSection = document.getElementById("Btns")
 const SetSelect = document.getElementById("sets")
+const colorchecks = document.querySelectorAll('#colors input[type="checkbox"]')
+console.log(colorchecks)
 
 const filterMenu = document.getElementById("menu")
 const FilterBtn = document.getElementById("FilterBtn")
@@ -144,6 +146,21 @@ async function GenerateContent(){
         })
     })
 }
+
+colorchecks.forEach(check =>{
+    check.addEventListener("input", function(){
+        console.log(check.value)
+        switch(check.value){
+            case "C" :
+                
+                break
+            default:
+                
+                break;
+        }
+    })
+})
+
 
 FilterBtn.addEventListener("click", SetFilter)
 async function SetFilter(){
