@@ -1,6 +1,8 @@
 
 import * as Funcions from "./Functionmodule.js"
 
+//display content for the page
+
 //Main page
 function CardIMG (CardData){
     const cards = document.createElement('div')
@@ -61,7 +63,6 @@ function DisplayInfo(cardData, symbolMap, jsonData){
 
     //${'check if card has index' in card ?`id="${index}"`:``}
     const generateTextBoxHTML = (card, index) => {
-        console.log(card)
         return`
         <h1>${card.name} ${Funcions.replaceSymbolsWithSVGs(card.mana_cost, symbolMap)}</h1>
         <hr>

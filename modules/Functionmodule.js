@@ -1,3 +1,17 @@
+
+//functions that are used on the site
+
+async function fetchSymbols() {
+    var response = await fetch("https://api.scryfall.com/symbology")
+    var jsonData = await response.json();
+    var SymbolMap = {}
+    jsonData.data.forEach(Symbol =>{
+        //for each symbol we add the symbol as the key and the svg link as the value
+        SymbolMap[Symbol.symbol] = Symbol.svg_uri;
+    })
+    return SymbolMap;
+}
+
 function replaceSymbolsWithSVGs(text, symbolMap){
     //set up regex to remove text to be replaced
     var newtext = text.replace(/\n/g, "<br>");
@@ -30,12 +44,19 @@ function setflip(){
     })
 }
 
-function CheckColor(){
-    
-    if(x){
-        
-    }
-    return
+function CheckColor(colorchecks, check){
+    switch(check.value){
+        case "C" :
+            colorchecks.forEach(set =>{
+                if(set.value != "C"){
+                    set.checked = false
+                }
+            })
+        break
+        default:
+            colorchecks[colorchecks.length -1].checked= false
+        break;
+        }
 }
 
 function editFlavorText(obj, flavorBox){
@@ -110,4 +131,4 @@ function changeCurrentBTN(Btn, currentPage, total){
     return currentPage
 }
 
-export {replaceSymbolsWithSVGs, setflip, CheckColor, editFlavorText, changeCurrentBTN}
+export {fetchSymbols,replaceSymbolsWithSVGs, setflip, CheckColor, editFlavorText, changeCurrentBTN}

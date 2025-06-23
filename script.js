@@ -17,24 +17,27 @@ const FilterBtn = document.getElementById("FilterBtn")
 const URL1 = "https://api.scryfall.com/cards/search?q="
 const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
 const URL2_2 = '"+unique%3Aprints&unique=cards'
-const URL3 = 'https://api.scryfall.com/symbology'
-const URL4 = 'https://api.scryfall.com/sets'
+const URL3 = 'https://api.scryfall.com/sets'
 
-//page values
+//values used on the page
 let currentPage = 1
+// the standart max ammount of buttons
 const BasemaxButtons = 10
+// a mutable value that is used to determin how many buttons will be shown on the page
 let CurrentMaxButtons = 10
 
+//URL values for use in API calls
 const page = "&page="
 const legal = "(f:standard or f:pioneer or f:modern or f:legacy or f:vintage or f:commander or f:oathbreaker)"
 
-//the base url combination
+//the base url combination 
 const baseURL = `${URL1}${legal}${page}`
 //the saved url is made to be mutable and change based on filters
 let savedURL = `${URL1}${legal}${page}`
 
+
 async function setSymbolsforFilter(){
-    const symbolMap = await fetchSymbols();
+    const symbolMap = await Funcions.fetchSymbols();
     const ColorChildren = document.getElementById("colors").childNodes
     console.log(ColorChildren)
     ColorChildren.forEach(color =>{
@@ -48,19 +51,8 @@ setSymbolsforFilter()
 
 GenerateContent()
 
-async function fetchSymbols() {
-    var response = await fetch(`${URL3}`)
-    var jsonData = await response.json();
-    var SymbolMap = {}
-    jsonData.data.forEach(Symbol =>{
-        //for each symbol we add the symbol as the key and the svg link as the value
-        SymbolMap[Symbol.symbol] = Symbol.svg_uri;
-    })
-    return SymbolMap;
-}
-
 async function fetchSets() {
-    var response = await fetch(`${URL4}`)
+    var response = await fetch(`${URL3}`)
     var jsonData = await response.json();
     for(var i = 0; i < SetSelect.children.length; i++){
         var Filter = jsonData.data.filter(set =>
@@ -117,6 +109,7 @@ async function GenerateContent(){
     }else{
         CurrentMaxButtons = BasemaxButtons
     }
+
     var to = CurrentMaxButtons
 
     if (currentPage + half >= total){
@@ -149,20 +142,7 @@ async function GenerateContent(){
 
 colorchecks.forEach(check =>{
     check.addEventListener("input", function(){
-        console.log(check.value)
-        console.log(colorchecks)
-        switch(check.value){
-            case "C" :
-                colorchecks.forEach(set =>{
-                    if(set.value != "C"){
-                        set.checked = false
-                    }
-                })
-                break
-            default:
-                colorchecks[colorchecks.length -1].checked= false
-                break;
-        }
+        Funcions.CheckColor(colorchecks, check)
     })
 })
 
@@ -188,7 +168,7 @@ async function resetFilter(){
 
 // infopage taken from 
 async function CreateInfoPage(cardData){
-    const symbolMap = await fetchSymbols();
+    const symbolMap = await Funcions.fetchSymbols();
     // get data for each prinitng of a card
     console.log(cardData.name)
     const response = await fetch(`${URL2_1}${cardData.name}${URL2_2}`);
