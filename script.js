@@ -2,11 +2,11 @@
 import * as Display from "./modules/DisplayModule.js"
 import * as Filter from "./modules/FilterModule.js"
 import * as Funcions from "./modules/Functionmodule.js"
+import * as API from "./modules/APIModules.js"
 
 //HTML DOM elements
 const cardsprint = document.getElementById("cardsprint")
 const BtnSection = document.getElementById("Btns")
-const SetSelect = document.getElementById("sets")
 const colorchecks = Array.from(document.querySelectorAll('#colors input[type="checkbox"]'))
 console.log(colorchecks)
 
@@ -17,7 +17,6 @@ const FilterBtn = document.getElementById("FilterBtn")
 const URL1 = "https://api.scryfall.com/cards/search?q="
 const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
 const URL2_2 = '"+unique%3Aprints&unique=cards'
-const URL3 = 'https://api.scryfall.com/sets'
 
 //values used on the page
 let currentPage = 1
@@ -35,11 +34,9 @@ const baseURL = `${URL1}${legal}${page}`
 //the saved url is made to be mutable and change based on filters
 let savedURL = `${URL1}${legal}${page}`
 
-
 async function setSymbolsforFilter(){
-    const symbolMap = await Funcions.fetchSymbols();
+    const symbolMap = await API.fetchSymbols();
     const ColorChildren = document.getElementById("colors").childNodes
-    console.log(ColorChildren)
     ColorChildren.forEach(color =>{
         if(typeof color.innerHTML == "string"){
             color.innerHTML= Funcions.replaceSymbolsWithSVGs(color.innerHTML,symbolMap)
@@ -48,33 +45,9 @@ async function setSymbolsforFilter(){
     })
 }
 setSymbolsforFilter()
-
 GenerateContent()
 
-async function fetchSets() {
-    var response = await fetch(`${URL3}`)
-    var jsonData = await response.json();
-    for(var i = 0; i < SetSelect.children.length; i++){
-        var Filter = jsonData.data.filter(set =>
-            set.set_type === SetSelect.children[i].id
-        )
-        var curerenttype = document.getElementById(SetSelect.children[i].id)
-        for (let set of Filter){
-            var ALLCapscode = set.code.toUpperCase()
-            var instance = document.createElement('option')
-            instance.innerHTML = `${set.name} (${ALLCapscode})`
-            instance.setAttribute('value', `${set.code}`)
-            instance.setAttribute('data-icon', set.icon_svg_uri);
-            curerenttype.appendChild(instance)
-        }
-    }
-    // Initialize Select2 or custom dropdown enhancement
-    $("#sets").select2({
-        templateResult: formatSets,
-        templateSelection: formatSets,
-    });
-}
-fetchSets()
+API.fetchSets()
 
 function formatSets(set){
     if ($(set.element).is('optgroup')) {
@@ -100,31 +73,7 @@ async function GenerateContent(){
     }
     Funcions.setflip()
     
-    Display.BackButtons(BtnSection)
-    
-    const half = Math.round(CurrentMaxButtons / 2)
-    const total = Math.ceil(Data.total_cards / 175)
-    if(total < 10){
-        CurrentMaxButtons = total
-    }else{
-        CurrentMaxButtons = BasemaxButtons
-    }
-
-    var to = CurrentMaxButtons
-
-    if (currentPage + half >= total){
-        to = total;
-    } else if (currentPage > half){
-        to = currentPage + half
-    }
-    var from = to - CurrentMaxButtons
-    var end = Math.min(total, from + CurrentMaxButtons);
-
-    for(var i = from; i< end; i++){
-        Display.NumberButtons(BtnSection, i)
-    }
-
-    Display.ForwardButtons(BtnSection)
+    Display.BTN(BtnSection, currentPage, CurrentMaxButtons, Data.total_cards, BasemaxButtons)
 
     var activeBtn = document.getElementById(currentPage)
     activeBtn.classList.add('active')
@@ -168,7 +117,7 @@ async function resetFilter(){
 
 // infopage taken from 
 async function CreateInfoPage(cardData){
-    const symbolMap = await Funcions.fetchSymbols();
+    const symbolMap = await API.fetchSymbols();
     // get data for each prinitng of a card
     console.log(cardData.name)
     const response = await fetch(`${URL2_1}${cardData.name}${URL2_2}`);

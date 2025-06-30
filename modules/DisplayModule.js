@@ -24,38 +24,51 @@ function CardIMG (CardData){
         cardsprint.appendChild(cards)
 }
 
-function BackButtons (BtnSection){
-    var button = document.createElement('button')
-    button.setAttribute('id', 'start')
-    button.classList.add('NavBtn')
-    button.innerHTML = `<<`
-    BtnSection.appendChild(button)
-    var button = document.createElement('button')
-    button.setAttribute('id', 'previous')
-    button.classList.add('NavBtn')
-    button.innerHTML = `<`
-    BtnSection.appendChild(button)
-}
+function BTN (BtnSection, currentPage, CurrentMaxButtons, total_cards, BasemaxButtons){
 
-function NumberButtons(BtnSection,i){
-    var button = document.createElement('button')
-    button.setAttribute('id', i + 1)
-    button.classList.add('NavBtn')
-    button.innerHTML = `${i+1}`
-    BtnSection.appendChild(button)
-}
+    var Back =[`<<`, `<`]
+    for(var i = 0; i< Back.length; i++){
+        var button = document.createElement('button')
+        button.setAttribute('id', 'start')
+        button.classList.add('NavBtn')
+        button.innerHTML = Back[i]
+        BtnSection.appendChild(button)
+    }
 
-function ForwardButtons(BtnSection){
-    var button = document.createElement('button')
-    button.setAttribute('id', 'next')
-    button.classList.add('NavBtn')
-    button.innerHTML = `>`
-    BtnSection.appendChild(button)
-    var button = document.createElement('button')
-    button.setAttribute('id', 'end')
-    button.classList.add('NavBtn')
-    button.innerHTML = `>>`
-    BtnSection.appendChild(button)
+    const half = Math.round(CurrentMaxButtons / 2)
+    const total = Math.ceil(total_cards / 175)
+    if(total < 10){
+        CurrentMaxButtons = total
+    }else{
+        CurrentMaxButtons = BasemaxButtons
+    }
+
+    var to = CurrentMaxButtons
+
+    if (currentPage + half >= total){
+        to = total;
+    } else if (currentPage > half){
+        to = currentPage + half
+    }
+    var from = to - CurrentMaxButtons
+    var end = Math.min(total, from + CurrentMaxButtons);
+
+    for(var i = from; i< end; i++){
+        var button = document.createElement('button')
+        button.setAttribute('id', i + 1)
+        button.classList.add('NavBtn')
+        button.innerHTML = `${i+1}`
+        BtnSection.appendChild(button)
+    }
+
+    var Forward =[`>`, `>>`]
+    for(var i = 0; i< Forward.length; i++){
+        var button = document.createElement('button')
+        button.setAttribute('id', 'start')
+        button.classList.add('NavBtn')
+        button.innerHTML = Forward[i]
+        BtnSection.appendChild(button)
+    }
 }
 
 //Overlay display
@@ -121,4 +134,4 @@ function DisplayInfo(cardData, symbolMap, jsonData){
     return card
 }
 
-export {CardIMG, BackButtons, NumberButtons, ForwardButtons, DisplayInfo}
+export {CardIMG, BTN, DisplayInfo}

@@ -1,17 +1,6 @@
 
 //functions that are used on the site
 
-async function fetchSymbols() {
-    var response = await fetch("https://api.scryfall.com/symbology")
-    var jsonData = await response.json();
-    var SymbolMap = {}
-    jsonData.data.forEach(Symbol =>{
-        //for each symbol we add the symbol as the key and the svg link as the value
-        SymbolMap[Symbol.symbol] = Symbol.svg_uri;
-    })
-    return SymbolMap;
-}
-
 function replaceSymbolsWithSVGs(text, symbolMap){
     //set up regex to remove text to be replaced
     var newtext = text.replace(/\n/g, "<br>");
@@ -131,4 +120,4 @@ function changeCurrentBTN(Btn, currentPage, total){
     return currentPage
 }
 
-export {fetchSymbols,replaceSymbolsWithSVGs, setflip, CheckColor, editFlavorText, changeCurrentBTN}
+export {replaceSymbolsWithSVGs, setflip, CheckColor, editFlavorText, changeCurrentBTN}
