@@ -73,7 +73,8 @@ async function GenerateContent(){
     }
     Funcions.setflip()
     
-    Display.BTN(BtnSection, currentPage, CurrentMaxButtons, Data.total_cards, BasemaxButtons)
+    const total = Math.ceil(Data.total_cards/ 175)
+    Display.BTN(BtnSection, currentPage, CurrentMaxButtons,total, BasemaxButtons)
 
     var activeBtn = document.getElementById(currentPage)
     activeBtn.classList.add('active')

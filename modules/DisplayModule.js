@@ -24,19 +24,21 @@ function CardIMG (CardData){
         cardsprint.appendChild(cards)
 }
 
-function BTN (BtnSection, currentPage, CurrentMaxButtons, total_cards, BasemaxButtons){
+//Nav buton geniration
+function BTN (BtnSection, currentPage, CurrentMaxButtons, total, BasemaxButtons){
 
-    var Back =[`<<`, `<`]
+    var Back = [
+        {icon: `<<`, id: `start`},
+        {icon: `<`, id: `previous`}]
     for(var i = 0; i< Back.length; i++){
         var button = document.createElement('button')
-        button.setAttribute('id', 'start')
+        button.setAttribute('id', Back[i].id)
         button.classList.add('NavBtn')
-        button.innerHTML = Back[i]
+        button.innerHTML = Back[i].icon
         BtnSection.appendChild(button)
     }
 
     const half = Math.round(CurrentMaxButtons / 2)
-    const total = Math.ceil(total_cards / 175)
     if(total < 10){
         CurrentMaxButtons = total
     }else{
@@ -61,12 +63,16 @@ function BTN (BtnSection, currentPage, CurrentMaxButtons, total_cards, BasemaxBu
         BtnSection.appendChild(button)
     }
 
-    var Forward =[`>`, `>>`]
+    var Forward = [
+        {icon: `>`, id: `next`},
+        {icon: `>>`, id: `end`}
+    ]
+
     for(var i = 0; i< Forward.length; i++){
         var button = document.createElement('button')
-        button.setAttribute('id', 'start')
+        button.setAttribute('id', Forward[i].id)
         button.classList.add('NavBtn')
-        button.innerHTML = Forward[i]
+        button.innerHTML = Forward[i].icon
         BtnSection.appendChild(button)
     }
 }
