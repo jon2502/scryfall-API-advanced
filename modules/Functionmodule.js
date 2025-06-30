@@ -48,7 +48,50 @@ function CheckColor(colorchecks, check){
         }
 }
 
-function editFlavorText(obj, flavorBox){
+function changeCurrentBTN(Btn, currentPage, total){
+    switch(Btn.id){
+        case 'start':
+            currentPage = 1
+            break;
+        case 'next':
+            currentPage = currentPage + 1
+            break;
+        case 'previous':
+            currentPage = currentPage - 1
+            break;                 
+        case 'end':
+            currentPage = total
+            break;
+        default:
+            currentPage = parseInt(Btn.id)
+    }
+    if(currentPage < 1){
+        currentPage = 1
+    } else if(currentPage > total){
+        currentPage = total
+    }
+    return currentPage
+}
+
+// change content shown based on a data for spesifick printing of a card
+function changeinfo(obj){
+    var cardart = document.getElementById('singlecard')
+    var artistName = document.getElementById('artist')
+    var flavorBox = document.querySelectorAll('.flavorBox')
+
+
+    if(cardart.hasChildNodes()){
+        //check if singlecard has childelement to check if the card is doublefaced
+        cardart.innerHTML = `
+        <img class="overlayfrontFace" src=${obj.card_faces[0].image_uris.normal}>
+        <img class="overlaybackSide" src=${obj.card_faces[1].image_uris.normal}>
+        `
+    }else{
+        cardart.setAttribute('src', obj.image_uris.normal,)
+    }
+
+    artistName.innerText=`Illustrated by ${obj.artist}`
+
     //check if card is doublefaced and has two flavorboxes for doublefaced cards
     //added to make sure everything is done correctly and the change of data doesent destroy the defult UI for the data
     if(flavorBox.length > 1){
@@ -95,29 +138,4 @@ function editFlavorText(obj, flavorBox){
     }
 }
 
-function changeCurrentBTN(Btn, currentPage, total){
-    switch(Btn.id){
-        case 'start':
-            currentPage = 1
-            break;
-        case 'next':
-            currentPage = currentPage + 1
-            break;
-        case 'previous':
-            currentPage = currentPage - 1
-            break;                 
-        case 'end':
-            currentPage = total
-            break;
-        default:
-            currentPage = parseInt(Btn.id)
-    }
-    if(currentPage < 1){
-        currentPage = 1
-    } else if(currentPage > total){
-        currentPage = total
-    }
-    return currentPage
-}
-
-export {replaceSymbolsWithSVGs, setflip, CheckColor, editFlavorText, changeCurrentBTN}
+export {replaceSymbolsWithSVGs, setflip, CheckColor, changeCurrentBTN, changeinfo}

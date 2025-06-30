@@ -49,16 +49,6 @@ GenerateContent()
 
 API.fetchSets()
 
-function formatSets(set){
-    if ($(set.element).is('optgroup')) {
-        // Return the text without any formatting
-        return set.text;
-    }
-    var iconUrl = $(set.element).data('icon');
-    var $display = $(`<span><img src="${iconUrl}" style="width:20px; height:20px";/> ${set.text}</span>`)
-    return $display
-}
-
 async function GenerateContent(){
     console.log(`${savedURL}${currentPage}`)
     var response = await fetch(`${savedURL}${currentPage}`)
@@ -73,6 +63,7 @@ async function GenerateContent(){
     }
     Funcions.setflip()
     
+    //total amount of pages generarated by dividing the total ammout of cards with the amount of cards pr page
     const total = Math.ceil(Data.total_cards/ 175)
     Display.BTN(BtnSection, currentPage, CurrentMaxButtons,total, BasemaxButtons)
 
@@ -120,7 +111,6 @@ async function resetFilter(){
 async function CreateInfoPage(cardData){
     const symbolMap = await API.fetchSymbols();
     // get data for each prinitng of a card
-    console.log(cardData.name)
     const response = await fetch(`${URL2_1}${cardData.name}${URL2_2}`);
     const jsonData = await response.json();
 
@@ -144,9 +134,9 @@ async function CreateInfoPage(cardData){
 
     var Info = document.createElement('section')
     Info.id = "cardInfo"
-        Info.innerHTML= Display.DisplayInfo(cardData, symbolMap, jsonData)
-        modal.append(Info)
-        Funcions.setflip()
+    Info.innerHTML= Display.DisplayInfo(cardData, symbolMap, jsonData)
+    modal.append(Info)
+    Funcions.setflip()
 
         for (let object of jsonData.data){
             var switchinfo = document.getElementById(object.id)
@@ -155,28 +145,7 @@ async function CreateInfoPage(cardData){
             })
              
             switchinfo.addEventListener('click', function(){
-                changeinfo(object)
+                Funcions.changeinfo(object)
             })
         }
-        // change content shown based on a data for spesifick printing of a card
-        function changeinfo(obj){
-            var cardart = document.getElementById('singlecard')
-            var artistName = document.getElementById('artist')
-            var flavorBox = document.querySelectorAll('.flavorBox')
-
-
-            if(cardart.hasChildNodes()){
-                //check if singlecard has childelement to check if the card is doublefaced
-                cardart.innerHTML = `
-                <img class="overlayfrontFace" src=${obj.card_faces[0].image_uris.normal}>
-                <img class="overlaybackSide" src=${obj.card_faces[1].image_uris.normal}>
-                `
-            }else{
-                cardart.setAttribute('src', obj.image_uris.normal,)
-            }
-
-            artistName.innerText=`Illustrated by ${obj.artist}`
-
-            Funcions.editFlavorText(obj, flavorBox)
-}
 }
