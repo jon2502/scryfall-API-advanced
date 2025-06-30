@@ -12,6 +12,9 @@ console.log(colorchecks)
 
 const filterMenu = document.getElementById("menu")
 const FilterBtn = document.getElementById("FilterBtn")
+const ResetBtn =document.getElementById('ResetBtn')
+
+
 
 // required API URL's
 const URL1 = "https://api.scryfall.com/cards/search?q="
@@ -50,10 +53,8 @@ GenerateContent()
 API.fetchSets()
 
 async function GenerateContent(){
-    console.log(`${savedURL}${currentPage}`)
     var response = await fetch(`${savedURL}${currentPage}`)
     var Data = await response.json()
-    console.log(Data)
     for (let CardData of Data.data) {
         Display.CardIMG(CardData)
         var cardinfo = document.getElementById(CardData.name)
@@ -98,6 +99,7 @@ async function SetFilter(){
     GenerateContent()
 }
 
+ResetBtn.addEventListener("click", resetFilter)
 async function resetFilter(){
     savedURL = baseURL
     cardsprint.innerHTML=""
