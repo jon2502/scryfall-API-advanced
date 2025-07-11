@@ -14,8 +14,6 @@ const filterMenu = document.getElementById("menu")
 const FilterBtn = document.getElementById("FilterBtn")
 const ResetBtn =document.getElementById('ResetBtn')
 
-
-
 // required API URL's
 const URL1 = "https://api.scryfall.com/cards/search?q="
 const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
@@ -74,9 +72,7 @@ async function GenerateContent(){
     allBtn.forEach(Btn =>{
         Btn.addEventListener("click", function(){
             currentPage = Funcions.changeCurrentBTN(Btn, currentPage, total)
-            console.log(currentPage)
-            cardsprint.innerHTML=""
-            BtnSection.innerHTML=""
+            Funcions.ResetCardsAndbtn(cardsprint, BtnSection)
             GenerateContent()
         })
     })
@@ -94,20 +90,17 @@ async function SetFilter(){
     let selectedFilters = Filter.FilterFunction()
     savedURL = `${URL1}${selectedFilters}`
     currentPage = 1
-    cardsprint.innerHTML=""
-    BtnSection.innerHTML=""
+    Funcions.ResetCardsAndbtn(cardsprint, BtnSection)
     GenerateContent()
 }
 
 ResetBtn.addEventListener("click", resetFilter)
 async function resetFilter(){
+
     savedURL = baseURL
-    cardsprint.innerHTML=""
-    BtnSection.innerHTML=""
+    Funcions.ResetCardsAndbtn(cardsprint, BtnSection)
     GenerateContent()
 }
-
-
 
 // infopage taken from 
 async function CreateInfoPage(cardData){

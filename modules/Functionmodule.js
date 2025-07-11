@@ -21,7 +21,6 @@ function replaceSymbolsWithSVGs(text, symbolMap){
 function setflip(){
     var flipButtons = document.querySelectorAll('.flipbtn')
     flipButtons.forEach(btn=>{
-        console.log(btn)
         btn.addEventListener('click',function(){
             var card = btn.parentElement.childNodes[0]
             if(card.classList.contains('flip')){
@@ -138,4 +137,9 @@ function changeinfo(obj){
     }
 }
 
-export {replaceSymbolsWithSVGs, setflip, CheckColor, changeCurrentBTN, changeinfo}
+function ResetCardsAndbtn(cardsprint, BtnSection){
+    cardsprint.innerHTML=""
+    BtnSection.innerHTML=""
+}
+
+export {replaceSymbolsWithSVGs, setflip, CheckColor, changeCurrentBTN, changeinfo, ResetCardsAndbtn}
