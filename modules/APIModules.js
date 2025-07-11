@@ -1,10 +1,15 @@
 
+async function fetchfuntion(URL) {
+    var response = await fetch(URL)
+    var jsonData = await response.json();
+    return jsonData
+}
+
 async function fetchSets() {
     const SetSelect = document.getElementById("sets")
-    var response = await fetch(`https://api.scryfall.com/sets`)
-    var jsonData = await response.json();
+    var Data = await fetchfuntion(`https://api.scryfall.com/sets`)
     for(var i = 0; i < SetSelect.children.length; i++){
-        var Filter = jsonData.data.filter(set =>
+        var Filter = Data.data.filter(set =>
             set.set_type === SetSelect.children[i].id
         )
         var curerenttype = document.getElementById(SetSelect.children[i].id)
@@ -35,14 +40,13 @@ function formatSets(set){
 }
 
 async function fetchSymbols() {
-    var response = await fetch("https://api.scryfall.com/symbology")
-    var jsonData = await response.json();
+    var Data = await fetchfuntion("https://api.scryfall.com/symbology")
     var SymbolMap = {}
-    jsonData.data.forEach(Symbol =>{
+    Data.data.forEach(Symbol =>{
         //for each symbol we add the symbol as the key and the svg link as the value
         SymbolMap[Symbol.symbol] = Symbol.svg_uri;
     })
     return SymbolMap;
 }
 
-export {fetchSets, fetchSymbols}
+export {fetchfuntion, fetchSets, fetchSymbols}

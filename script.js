@@ -8,7 +8,6 @@ import * as API from "./modules/APIModules.js"
 const cardsprint = document.getElementById("cardsprint")
 const BtnSection = document.getElementById("Btns")
 const colorchecks = Array.from(document.querySelectorAll('#colors input[type="checkbox"]'))
-console.log(colorchecks)
 
 const filterMenu = document.getElementById("menu")
 const FilterBtn = document.getElementById("FilterBtn")
@@ -51,8 +50,7 @@ GenerateContent()
 API.fetchSets()
 
 async function GenerateContent(){
-    var response = await fetch(`${savedURL}${currentPage}`)
-    var Data = await response.json()
+    var Data = await API.fetchfuntion(`${savedURL}${currentPage}`)
     for (let CardData of Data.data) {
         Display.CardIMG(CardData)
         var cardinfo = document.getElementById(CardData.name)
@@ -106,9 +104,7 @@ async function resetFilter(){
 async function CreateInfoPage(cardData){
     const symbolMap = await API.fetchSymbols();
     // get data for each prinitng of a card
-    const response = await fetch(`${URL2_1}${cardData.name}${URL2_2}`);
-    const jsonData = await response.json();
-
+    var Data = await API.fetchfuntion(`${URL2_1}${cardData.name}${URL2_2}`)
     let overlay = document.createElement('div');
     overlay.classList.add('overlay');
     document.body.prepend(overlay);
@@ -129,11 +125,11 @@ async function CreateInfoPage(cardData){
 
     var Info = document.createElement('section')
     Info.id = "cardInfo"
-    Info.innerHTML= Display.DisplayInfo(cardData, symbolMap, jsonData)
+    Info.innerHTML= Display.DisplayInfo(cardData, symbolMap, Data)
     modal.append(Info)
     Funcions.setflip()
 
-        for (let object of jsonData.data){
+        for (let object of Data.data){
             var switchinfo = document.getElementById(object.id)
             switchinfo.addEventListener('mouseover', function(){
 
