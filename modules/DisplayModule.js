@@ -53,13 +53,11 @@ function BTN (BtnSection, currentPage, CurrentMaxButtons, total, BasemaxButtons)
     // if curentpage + halft toal amount of buttons exceeds the total page count,
     // Then set end index to total as to not generate aditional buttons
     if (currentPage + half >= total){
-        var end = total;
+        var end = total
     //If currentPage is larger then half the value of total buttons,
     //then set it so that curent currentPage button is centrelized in the button menu
     } else if (currentPage > half){
-        console.log(currentPage)
-        console.log(half)
-        var end = Math.min(total, currentPage + half)
+        var end = currentPage + half
     //else the index is close to the start page 1 to 5 and therefor we just set end to max buttons value
     } else {
         var end = CurrentMaxButtons
