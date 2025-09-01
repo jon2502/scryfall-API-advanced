@@ -38,24 +38,40 @@ function BTN (BtnSection, currentPage, CurrentMaxButtons, total, BasemaxButtons)
         BtnSection.appendChild(button)
     }
 
-    const half = Math.round(CurrentMaxButtons / 2)
+    
     if(total < 10){
         CurrentMaxButtons = total
     }else{
         CurrentMaxButtons = BasemaxButtons
     }
 
-    var to = CurrentMaxButtons
+    //Find the "halfway point" in the max number of buttons.
+    const half = Math.round(CurrentMaxButtons / 2)
 
+    //get index endpoint
+
+    // if curentpage + halft toal amount of buttons exceeds the total page count,
+    // Then set end index to total as to not generate aditional buttons
     if (currentPage + half >= total){
-        to = total;
+        var end = total;
+    //If currentPage is larger then half the value of total buttons,
+    //then set it so that curent currentPage button is centrelized in the button menu
     } else if (currentPage > half){
-        to = currentPage + half
+        console.log(currentPage)
+        console.log(half)
+        var end = Math.min(total, currentPage + half)
+    //else the index is close to the start page 1 to 5 and therefor we just set end to max buttons value
+    } else {
+        var end = CurrentMaxButtons
     }
-    var from = to - CurrentMaxButtons
-    var end = Math.min(total, from + CurrentMaxButtons);
 
+    //calculate starting point by subtracting CurrentMaxButtons from end value
+    var from = end - CurrentMaxButtons
+
+
+    //Loop through the range and create a button for each page number.
     for(var i = from; i< end; i++){
+        console.log(i)
         var button = document.createElement('button')
         button.setAttribute('id', i + 1)
         button.classList.add('NavBtn')

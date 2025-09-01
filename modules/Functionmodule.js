@@ -105,11 +105,7 @@ function changeinfo(obj){
                 if(flavorText){
                     flavorText.innerHTML = `<i>${obj.card_faces[box.id].flavor_text}</i>`;
                 }else{
-                    flavorText = document.createElement('p');
-                    flavorText.classList.add('flavortext');
-                    flavorText.setAttribute('id', `${box.id}`)
-                    flavorText.innerHTML=`<i>${obj.card_faces[box.id].flavor_text}</i>`
-                    box.appendChild(flavorText);
+                    textbox(flavorText, box, `<i>${obj.card_faces[box.id].flavor_text}</i>`)
                 }
             }
         })
@@ -127,14 +123,19 @@ function changeinfo(obj){
                     flavorText.innerHTML = `<i>${obj.flavor_text}</i>`;
                 }else{
                     // if flavor text dosent exist create it again
-                    flavorText = document.createElement('p');
-                    flavorText.classList.add('flavortext');
-                    flavorText.innerHTML=`<i>${obj.flavor_text}</i>`
-                    box.appendChild(flavorText);
+                    textbox(flavorText, box, `<i>${obj.flavor_text}</i>`)
                 }
             }
         });
     }
+}
+
+// part of above function
+function textbox(flavorText, box, text){
+    flavorText = document.createElement('p');
+    flavorText.classList.add('flavortext');
+    flavorText.innerHTML= text
+    box.appendChild(flavorText);
 }
 
 function ResetCardsAndbtn(cardsprint, BtnSection){

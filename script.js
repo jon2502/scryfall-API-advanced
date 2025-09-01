@@ -94,7 +94,6 @@ async function SetFilter(){
 
 ResetBtn.addEventListener("click", resetFilter)
 async function resetFilter(){
-
     savedURL = baseURL
     Funcions.ResetCardsAndbtn(cardsprint, BtnSection)
     GenerateContent()
