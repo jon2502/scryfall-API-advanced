@@ -9,11 +9,11 @@ function CardIMG (CardData){
             if (CardData.card_faces[0].image_uris != null && CardData.card_faces[1].image_uris != null){
                 return `
                 <div class="card">
-                <div class="doublefacedcard" id="${CardData.oracle_id}">
-                    <img class="frontFace" src=${CardData.card_faces[0].image_uris.normal}>
-                    <img class="backSide" src=${CardData.card_faces[1].image_uris.normal}>
-                </div>
-                <button class="flipbtn">flip</button>
+                    <div class="doublefacedcard" id="${CardData.oracle_id}">
+                        <img class="frontFace" src=${CardData.card_faces[0].image_uris.normal}>
+                        <img class="backSide" src=${CardData.card_faces[1].image_uris.normal}>
+                    </div>
+                    <button class="flipbtn">flip</button>
                 </div>`   
             }else{
                 return`<div class="card" id="${CardData.oracle_id}">

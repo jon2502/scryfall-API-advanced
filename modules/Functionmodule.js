@@ -22,7 +22,7 @@ function setflip(){
     var flipButtons = document.querySelectorAll('.flipbtn')
     flipButtons.forEach(btn=>{
         btn.addEventListener('click',function(){
-            var card = btn.parentElement.childNodes[0]
+            var card = btn.parentElement.children[0]
             if(card.classList.contains('flip')){
                 card.classList.remove('flip')
             }else{
