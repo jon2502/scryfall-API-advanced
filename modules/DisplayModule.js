@@ -5,23 +5,27 @@ import * as Funcions from "./Functionmodule.js"
 
 //Main page
 function CardIMG (CardData){
-    const cards = document.createElement('div')
-    cards.classList.add('card')
     if ('card_faces' in CardData){
-            if (CardData.layout == "split" || CardData.layout == "adventure" || CardData.layout == "flip"){
-                cards.setAttribute("id", CardData.name);
-                cards.innerHTML=`<img src=${CardData.image_uris.normal}>`
-            }else{
-                cards.innerHTML=`<div class="doublefacedcard" id="${CardData.name}">
+            if (CardData.card_faces[0].image_uris != null && CardData.card_faces[1].image_uris != null){
+                return `
+                <div class="card">
+                <div class="doublefacedcard" id="${CardData.oracle_id}">
                     <img class="frontFace" src=${CardData.card_faces[0].image_uris.normal}>
                     <img class="backSide" src=${CardData.card_faces[1].image_uris.normal}>
-                </div><button class="flipbtn">flip</button>`  
+                </div>
+                <button class="flipbtn">flip</button>
+                </div>`   
+            }else{
+                return`<div class="card" id="${CardData.oracle_id}">
+                    <img src=${CardData.image_uris.normal}>
+                </div>`
+
             }
         } else {
-            cards.setAttribute("id", CardData.name);
-            cards.innerHTML=`<img src=${CardData.image_uris.normal}>` 
+            return `<div class="card" id="${CardData.oracle_id}">
+                    <img src=${CardData.image_uris.normal}>
+                </div>`
         }
-        cardsprint.appendChild(cards)
 }
 
 //Nav buton geniration
@@ -69,7 +73,6 @@ function BTN (BtnSection, currentPage, CurrentMaxButtons, total, BasemaxButtons)
 
     //Loop through the range and create a button for each page number.
     for(var i = from; i< end; i++){
-        console.log(i)
         var button = document.createElement('button')
         button.setAttribute('id', i + 1)
         button.classList.add('NavBtn')

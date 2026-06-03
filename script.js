@@ -15,8 +15,8 @@ const ResetBtn =document.getElementById('ResetBtn')
 
 // required API URL's
 const URL1 = "https://api.scryfall.com/cards/search?q="
-const URL2_1 = 'https://api.scryfall.com/cards/search?q=!"'
-const URL2_2 = '"+unique%3Aprints&unique=cards'
+const URL2_1 = "https://api.scryfall.com/cards/search?order=released&q=oracleid:"
+const URL2_2 = "&unique=prints"
 
 //values used on the page
 let currentPage = 1
@@ -52,8 +52,8 @@ API.fetchSets()
 async function GenerateContent(){
     var Data = await API.fetchfuntion(`${savedURL}${currentPage}`)
     for (let CardData of Data.data) {
-        Display.CardIMG(CardData)
-        var cardinfo = document.getElementById(CardData.name)
+        cardsprint.insertAdjacentHTML('beforeend', Display.CardIMG(CardData))
+        var cardinfo = document.getElementById(CardData.oracle_id)
         cardinfo.addEventListener('click', function(){
             CreateInfoPage(CardData)
         })
@@ -103,7 +103,7 @@ async function resetFilter(){
 async function CreateInfoPage(cardData){
     const symbolMap = await API.fetchSymbols();
     // get data for each prinitng of a card
-    var Data = await API.fetchfuntion(`${URL2_1}${cardData.name}${URL2_2}`)
+    var Data = await API.fetchfuntion(`${URL2_1}${cardData.oracle_id}${URL2_2}`)
     let overlay = document.createElement('div');
     overlay.classList.add('overlay');
     document.body.prepend(overlay);

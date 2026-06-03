@@ -34,7 +34,6 @@ loadDoc()
 
 FilterBtn.addEventListener('click', async function(){
     var results = $('#sets').val();
-    console.log(results)
     if(results.length > 0){
         cardsprint.innerHTML=""
         Btn.innerHTML=""
