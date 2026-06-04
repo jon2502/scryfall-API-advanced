@@ -23,11 +23,12 @@ function setflip(){
     flipButtons.forEach(btn=>{
         btn.addEventListener('click',function(){
             var card = btn.parentElement.children[0]
-            if(card.classList.contains('flip')){
+            card.classList.toggle('flip')
+            /*if(card.classList.contains('flip')){
                 card.classList.remove('flip')
             }else{
                 card.classList.add('flip')
-            }
+            }*/
         })
     })
 }

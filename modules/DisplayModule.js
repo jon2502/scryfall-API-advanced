@@ -4,26 +4,26 @@ import * as Funcions from "./Functionmodule.js"
 //display content for the page
 
 //Main page
-function CardIMG (CardData){
-    if ('card_faces' in CardData){
-            if (CardData.card_faces[0].image_uris != null && CardData.card_faces[1].image_uris != null){
+function CardIMG (cardData){
+    if ('card_faces' in cardData){
+            if (cardData.card_faces[0].image_uris != null && cardData.card_faces[1].image_uris != null){
                 return `
                 <div class="card">
-                    <div class="doublefacedcard" id="${CardData.oracle_id}">
-                        <img class="frontFace" src=${CardData.card_faces[0].image_uris.normal}>
-                        <img class="backSide" src=${CardData.card_faces[1].image_uris.normal}>
+                    <div class="doublefacedcard" id="${cardData.oracle_id}">
+                        <img class="frontFace" src=${cardData.card_faces[0].image_uris.normal}>
+                        <img class="backSide" src=${cardData.card_faces[1].image_uris.normal}>
                     </div>
                     <button class="flipbtn">flip</button>
                 </div>`   
             }else{
-                return`<div class="card" id="${CardData.oracle_id}">
-                    <img src=${CardData.image_uris.normal}>
+                return`<div class="card" id="${cardData.oracle_id}">
+                    <img src=${cardData.image_uris.normal}>
                 </div>`
 
             }
         } else {
-            return `<div class="card" id="${CardData.oracle_id}">
-                    <img src=${CardData.image_uris.normal}>
+            return `<div class="card" id="${cardData.oracle_id}">
+                    <img src=${cardData.image_uris.normal}>
                 </div>`
         }
 }
@@ -129,7 +129,7 @@ function DisplayInfo(cardData, symbolMap, jsonData){
                     <img class="overlayfrontFace" src=${cardData.card_faces[0].image_uris.normal}>
                     <img class="overlaybackSide" src=${cardData.card_faces[1].image_uris.normal}>
                 </div>
-                <button class="flipbtn">flip</button>
+                <button class="flipbtn" id="modalflip">flip</button>
             `}
             </section>
             <section id="textbox">

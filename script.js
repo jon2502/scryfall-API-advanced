@@ -51,11 +51,11 @@ API.fetchSets()
 
 async function GenerateContent(){
     var Data = await API.fetchfuntion(`${savedURL}${currentPage}`)
-    for (let CardData of Data.data) {
-        cardsprint.insertAdjacentHTML('beforeend', Display.CardIMG(CardData))
-        var cardinfo = document.getElementById(CardData.oracle_id)
+    for (let cardData of Data.data) {
+        cardsprint.insertAdjacentHTML('beforeend', Display.CardIMG(cardData))
+        var cardinfo = document.getElementById(cardData.oracle_id)
         cardinfo.addEventListener('click', function(){
-            CreateInfoPage(CardData)
+            CreateInfoPage(cardData)
         })
     }
     Funcions.setflip()
@@ -126,7 +126,13 @@ async function CreateInfoPage(cardData){
     Info.id = "cardInfo"
     Info.innerHTML= Display.DisplayInfo(cardData, symbolMap, Data)
     modal.append(Info)
-    Funcions.setflip()
+    if (cardData.card_faces[0].image_uris != null && cardData.card_faces[1].image_uris != null){
+        var modalbtn = document.getElementById("modalflip")
+        modalbtn.addEventListener("click", function(){
+            var card = modalbtn.parentElement.children[0]
+            card.classList.toggle('flip')
+        })
+    }
 
         for (let object of Data.data){
             var switchinfo = document.getElementById(object.id)
